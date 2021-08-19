@@ -12,6 +12,6 @@ class Location {
   });
 
   String getFormattedPrice() {
-    return '${price}BTC';
+    return '$price BTC';
   }
 }

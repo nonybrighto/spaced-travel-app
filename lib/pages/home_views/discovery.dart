@@ -1,5 +1,11 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:spaced_trip_scheduler/constants.dart';
+import 'package:spaced_trip_scheduler/models/category.dart';
+import 'package:spaced_trip_scheduler/models/location.dart';
 import 'package:spaced_trip_scheduler/widgets/base_view.dart';
+import 'package:spaced_trip_scheduler/widgets/category_card.dart';
+import 'package:spaced_trip_scheduler/widgets/location_slider_card.dart';
 
 class Discovery extends StatelessWidget {
   const Discovery({Key? key}) : super(key: key);
@@ -11,53 +17,111 @@ class Discovery extends StatelessWidget {
       subTitle: 'Trending locations today',
       body: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Hello ss ' * 90,
-              style: TextStyle(fontSize: 90),
-            ),
+            _buildImageSlider(context),
+            Padding(
+              padding: const EdgeInsets.only(
+                left: kDefaultPadding,
+                top: 10,
+                right: kDefaultPadding,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Feeling Adventurous?',
+                    style: kHeadingStyle,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const Text(
+                    'Get Inspiration from these trending categories',
+                    style: TextStyle(
+                      color: Color(0xffd5d9df),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 25,
+                  ),
+                  _buildCategories(),
+                ],
+              ),
+            )
           ],
         ),
       ),
     );
   }
 
-  //  _buildImageSlider() {
-  //   List<String> imageList = [
-  //     'theme_one.png',
-  //     'theme_two.png',
-  //     'theme_three.png'
-  //   ];
+  _buildImageSlider(BuildContext context) {
+    List<Location> sliderLocations = [
+      Location(
+        title: 'Ophiuch',
+        place: 'Kaduna',
+        imageUrl: '$kImagesPath/roberto-nickson-g-549146-unsplash.jpg',
+        price: 0.4,
+      ),
+      Location(
+        title: 'Santorini',
+        place: 'New Osogbo',
+        imageUrl: '$kImagesPath/simone-hutsch-699861-unsplash.jpg',
+        price: 0.5,
+      ),
+      Location(
+        title: 'Marrakech',
+        place: 'Neptune',
+        imageUrl: '$kImagesPath/kenny-luo-516116-unsplash.jpg',
+        price: 2.8,
+      ),
+    ];
 
-  //   return CarouselSlider(
-  //               items: imageList
-  //                   .map((image) => _buildImageDisplay(image))
-  //                   .toList(),
-  //               options: CarouselOptions(
-  //                   initialPage: _getInitialPage(appProvider.themeType),
-  //                   autoPlay: false,
-  //                   enlargeCenterPage: true,
-  //                   height: MediaQuery.of(context).size.height * 1 / 2,
-  //                   // aspectRatio: 0.9,
-  //                   viewportFraction: 0.6,
-  //                   onPageChanged: (index, reason) {
-  //                     switch (index) {
-  //                       case 0:
-  //                         appProvider.changeThemeType(ThemeType.one);
-  //                         break;
-  //                       case 1:
-  //                         appProvider.changeThemeType(ThemeType.two);
-  //                         break;
-  //                       case 2:
-  //                         appProvider.changeThemeType(ThemeType.three);
-  //                         break;
-  //                       default:
-  //                         appProvider.changeThemeType(ThemeType.one);
-  //                     }
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 20.0),
+      child: CarouselSlider(
+        options: CarouselOptions(
+            autoPlay: false,
+            aspectRatio: 1.1,
+            enableInfiniteScroll: false,
+            enlargeCenterPage: true,
+            viewportFraction:
+                (MediaQuery.of(context).size.width - 3 * kDefaultPadding) /
+                    MediaQuery.of(context).size.width,
+            disableCenter: true,
+            onScrolled: (val) {
+              print(val);
+            }),
+        items: sliderLocations
+            .map((location) => LocationSliderCard(location: location))
+            .toList(),
+      ),
+    );
+  }
 
-  //                     setState(() {
-  //                       _currentIndex = index;
-  //                     });
-  //                   });
-  // }
+  _buildCategories() {
+    const categriesPath = '$kImagesPath/categories';
+    List<Category> categories = [
+      Category(name: 'Nature', imageUrl: '$categriesPath/nature.png'),
+      Category(name: 'Futuristic', imageUrl: '$categriesPath/futuristic.png'),
+      Category(name: 'Party', imageUrl: '$categriesPath/party.png'),
+      Category(name: 'Green', imageUrl: '$categriesPath/green.png'),
+    ];
+
+    return GridView.builder(
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 10.0,
+          mainAxisSpacing: 10.0,
+          childAspectRatio: 1.8),
+      itemCount: categories.length,
+      itemBuilder: (context, index) {
+        return CategoryCard(
+          category: categories[index],
+        );
+      },
+    );
+  }
 }

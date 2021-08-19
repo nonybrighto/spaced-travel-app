@@ -18,7 +18,7 @@ class BaseView extends StatelessWidget {
       appBar: AppBar(
         centerTitle: false,
         title: Padding(
-          padding: const EdgeInsets.only(left: 5.0),
+          padding: const EdgeInsets.only(left: 10.0),
           child: Text(
             title ?? 'Spaced',
             style: const TextStyle(fontSize: 40, fontFamily: 'SFProDisplay'),
