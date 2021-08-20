@@ -4,8 +4,12 @@ import 'package:spaced_trip_scheduler/models/location.dart';
 
 class LocationSliderCard extends StatelessWidget {
   final Location location;
-  const LocationSliderCard({Key? key, required this.location})
-      : super(key: key);
+  final VoidCallback onTap;
+  const LocationSliderCard({
+    Key? key,
+    required this.location,
+    required this.onTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,13 +18,14 @@ class LocationSliderCard extends StatelessWidget {
       borderRadius: const BorderRadius.all(Radius.circular(13)),
       child: Stack(
         children: [
-          Container(
-            decoration: BoxDecoration(
-                image: DecorationImage(
-              image: AssetImage(location.imageUrl),
-              fit: BoxFit.cover,
-            )),
-          ),
+          Hero(
+              tag: 'location_image' + location.title,
+              child: Image.asset(
+                location.imageUrl,
+                height: double.infinity,
+                width: double.infinity,
+                fit: BoxFit.fill,
+              )),
           Container(
             decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -101,9 +106,7 @@ class LocationSliderCard extends StatelessWidget {
             color: Colors.transparent,
             child: InkWell(
               child: Container(),
-              onTap: () {
-                print('stop clicked');
-              },
+              onTap: onTap,
             ),
           )
         ],

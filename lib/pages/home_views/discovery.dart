@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:spaced_trip_scheduler/constants.dart';
 import 'package:spaced_trip_scheduler/models/category.dart';
 import 'package:spaced_trip_scheduler/models/location.dart';
+import 'package:spaced_trip_scheduler/pages/location_page.dart';
 import 'package:spaced_trip_scheduler/widgets/base_view.dart';
 import 'package:spaced_trip_scheduler/widgets/category_card.dart';
 import 'package:spaced_trip_scheduler/widgets/location_slider_card.dart';
@@ -39,7 +40,7 @@ class Discovery extends StatelessWidget {
                   const Text(
                     'Get Inspiration from these trending categories',
                     style: TextStyle(
-                      color: Color(0xffd5d9df),
+                      color: kNoteTextColor,
                     ),
                   ),
                   const SizedBox(
@@ -62,18 +63,21 @@ class Discovery extends StatelessWidget {
         place: 'Kaduna',
         imageUrl: '$kImagesPath/roberto-nickson-g-549146-unsplash.jpg',
         price: 0.4,
+        description: 'Description',
       ),
       Location(
         title: 'Santorini',
         place: 'New Osogbo',
         imageUrl: '$kImagesPath/simone-hutsch-699861-unsplash.jpg',
         price: 0.5,
+        description: 'Description',
       ),
       Location(
         title: 'Marrakech',
         place: 'Neptune',
         imageUrl: '$kImagesPath/kenny-luo-516116-unsplash.jpg',
         price: 2.8,
+        description: 'Description',
       ),
     ];
 
@@ -90,10 +94,18 @@ class Discovery extends StatelessWidget {
                     MediaQuery.of(context).size.width,
             disableCenter: true,
             onScrolled: (val) {
-              print(val);
+              // print(val);
             }),
         items: sliderLocations
-            .map((location) => LocationSliderCard(location: location))
+            .map((location) => LocationSliderCard(
+                  location: location,
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => LocationPage(
+                              location: location,
+                            )));
+                  },
+                ))
             .toList(),
       ),
     );
