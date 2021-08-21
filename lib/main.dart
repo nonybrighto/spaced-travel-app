@@ -25,7 +25,7 @@ class _MyAppState extends State<MyApp> {
         brightness: Brightness.light,
         scaffoldBackgroundColor: kBackgroundColor,
         primarySwatch: Colors.grey,
-        primaryColor: kBackgroundColor,
+        primaryColor: kPrimaryColor,
         appBarTheme: const AppBarTheme(
           elevation: 0,
           backgroundColor: Colors.transparent,

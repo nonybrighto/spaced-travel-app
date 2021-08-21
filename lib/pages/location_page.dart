@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:spaced_trip_scheduler/helpers/no_animation_page_route.dart';
 import 'package:spaced_trip_scheduler/models/location.dart';
+import 'package:spaced_trip_scheduler/pages/trip_schedule_page.dart';
 
 import '../constants.dart';
 
@@ -98,7 +100,7 @@ class LocationPage extends StatelessWidget {
                       horizontal: kDefaultPadding,
                       vertical: 30,
                     ),
-                    child: _buildButton(),
+                    child: _buildButton(context),
                   )
                 ],
               ),
@@ -109,11 +111,11 @@ class LocationPage extends StatelessWidget {
     );
   }
 
-  Widget _buildButton() {
+  Widget _buildButton(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(20),
       child: Container(
-        color: kAccentColor,
+        color: kPrimaryColor,
         child: Material(
           color: Colors.transparent,
           child: InkWell(
@@ -139,6 +141,10 @@ class LocationPage extends StatelessWidget {
             ),
             onTap: () {
               //tapped
+              Navigator.of(context).push(NoAnimationPageRoute(
+                  builder: (context) => TripSchedulePage(
+                        location: location,
+                      )));
             },
           ),
         ),
@@ -177,7 +183,7 @@ class LocationPage extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: const [
-               Text(
+                Text(
                   'WEATHER NOW',
                   style: TextStyle(
                     fontSize: 15,

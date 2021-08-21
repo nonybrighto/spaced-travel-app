@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage> {
           iconSize: 35,
           showSelectedLabels: false,
           showUnselectedLabels: false,
-          selectedItemColor: kAccentColor,
+          selectedItemColor: kPrimaryColor,
           type: BottomNavigationBarType.fixed,
           unselectedItemColor: Colors.white,
           currentIndex: _currentIndex,

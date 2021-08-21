@@ -86,7 +86,7 @@ class LocationSliderCard extends StatelessWidget {
                   ),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
-                    color: kAccentColor,
+                    color: kPrimaryColor,
                   ),
                   child: Row(
                     children: [
