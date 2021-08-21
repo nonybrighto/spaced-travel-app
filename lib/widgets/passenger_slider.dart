@@ -26,7 +26,6 @@ class _PassengerSliderState extends State<PassengerSlider> {
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     _backgroundColorTween =
         ColorTween(begin: Theme.of(context).primaryColor, end: kBackgroundColor)
@@ -39,10 +38,10 @@ class _PassengerSliderState extends State<PassengerSlider> {
       position: _slideTween.animate(widget.controller),
       child: DraggableScrollableSheet(
           expand: true,
-          initialChildSize: 0.1,
+          initialChildSize: 0.7,
           maxChildSize: 0.7,
-          minChildSize: 0,
-          builder: (context, _) {
+          minChildSize: 0.2,
+          builder: (context, controller) {
             return AnimatedContainer(
               duration: const Duration(milliseconds: 300),
               decoration: BoxDecoration(
@@ -52,13 +51,15 @@ class _PassengerSliderState extends State<PassengerSlider> {
                   borderRadius:
                       const BorderRadius.vertical(top: Radius.circular(35))),
               padding: const EdgeInsets.all(30),
-              child: Column(
+              child: ListView(
                   // mainAxisSize: MainAxisSize.min,
                   // crossAxisAlignment: CrossAxisAlignment.start,
+                  controller: controller,
                   children: [
                     TextButton(
                       onPressed: () {
                         print('Clicked');
+                        widget.controller.forward();
                       },
                       child: Text('Book',
                           style: TextStyle(

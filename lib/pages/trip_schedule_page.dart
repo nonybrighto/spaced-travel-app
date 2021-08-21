@@ -34,7 +34,7 @@ class _TripSchedulePageState extends State<TripSchedulePage>
     _locationTimeSliderController.addListener(() async {
       if (_locationTimeSliderController.isCompleted) {
         await Future.delayed(const Duration(seconds: 2));
-        _passengerSliderController.forward();
+        _passengerSliderController.animateTo(0.5);
       }
     });
   }
