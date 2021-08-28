@@ -1,6 +1,7 @@
 class Location {
   String title;
   String place;
+  String country;
   String imageUrl;
   double price;
   String description;
@@ -8,6 +9,7 @@ class Location {
   Location({
     required this.title,
     required this.place,
+    required this.country,
     required this.imageUrl,
     required this.price,
     required this.description,

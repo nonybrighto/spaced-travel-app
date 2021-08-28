@@ -10,7 +10,9 @@ const kIconsPath = 'assets/icons';
 //color
 const kBackgroundColor = Color(0xff131313);
 const kNoteTextColor = Color(0xffd5d9df);
+const kNoteTextColorDarker = Color(0xffAFB6C1);
 const kPrimaryColor = Color(0xffff3366);
+const kSliderSubColor = Color(0xff771E34);
 
 // styles
 

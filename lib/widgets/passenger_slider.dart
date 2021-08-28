@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:spaced_trip_scheduler/constants.dart';
+import 'package:spaced_trip_scheduler/widgets/number_picker.dart';
 
 class PassengerSlider extends StatefulWidget {
   final AnimationController controller;
   final bool activate;
+  final VoidCallback onOpened;
   const PassengerSlider({
     Key? key,
     required this.controller,
     required this.activate,
+    required this.onOpened,
   }) : super(key: key);
 
   @override
@@ -17,7 +20,9 @@ class PassengerSlider extends StatefulWidget {
 class _PassengerSliderState extends State<PassengerSlider> {
   final Tween<Offset> _slideTween =
       Tween(begin: const Offset(0, 1), end: const Offset(0, 0));
-  late Animation<Color?> _backgroundColorTween;
+
+  int? _numberOfAdults = 1;
+  bool _showChildSelection = false;
 
   @override
   void initState() {
@@ -27,9 +32,6 @@ class _PassengerSliderState extends State<PassengerSlider> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _backgroundColorTween =
-        ColorTween(begin: Theme.of(context).primaryColor, end: kBackgroundColor)
-            .animate(widget.controller);
   }
 
   @override
@@ -51,22 +53,69 @@ class _PassengerSliderState extends State<PassengerSlider> {
                   borderRadius:
                       const BorderRadius.vertical(top: Radius.circular(35))),
               padding: const EdgeInsets.all(30),
-              child: ListView(
-                  // mainAxisSize: MainAxisSize.min,
-                  // crossAxisAlignment: CrossAxisAlignment.start,
-                  controller: controller,
-                  children: [
-                    TextButton(
+              child: Stack(
+                children: [
+                  Positioned.fill(
+                    top: 25,
+                    child: SingleChildScrollView(
+                        child: Column(children: [
+                      const Text(
+                        'How many Adults?',
+                        style: kHeadingStyle,
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      const Text(
+                        '12 YEARS +',
+                        style: TextStyle(fontSize: 14),
+                      ),
+                      NumberPicker(
+                        selectedValue: _numberOfAdults,
+                        isLarge: !_showChildSelection,
+                        onValuePicked: (value) {
+                          setState(() {
+                            _numberOfAdults = value;
+                          });
+                        },
+                      ),
+                      Checkbox(
+                          value: _showChildSelection,
+                          onChanged: (show) {
+                            setState(() {
+                              _showChildSelection = show!;
+                            });
+                          }),
+                      if (_showChildSelection)
+                        NumberPicker(
+                          selectedValue: _numberOfAdults,
+                          isLarge: !_showChildSelection,
+                          onValuePicked: (value) {
+                            setState(() {
+                              _numberOfAdults = value;
+                            });
+                          },
+                        ),
+                    ])),
+                  ),
+                  const Align(
+                      alignment: Alignment.topCenter, child: Text('SEATS')),
+                  Positioned(
+                    right: 0,
+                    top: -10,
+                    child: IconButton(
+                      icon: const Icon(
+                        Icons.expand_less,
+                        color: Colors.white,
+                      ),
                       onPressed: () {
-                        print('Clicked');
                         widget.controller.forward();
+                        widget.onOpened();
                       },
-                      child: Text('Book',
-                          style: TextStyle(
-                            color: Colors.red,
-                          )),
-                    )
-                  ]),
+                    ),
+                  ),
+                ],
+              ),
             );
           }),
     );

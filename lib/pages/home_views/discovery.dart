@@ -64,6 +64,7 @@ class Discovery extends StatelessWidget {
         imageUrl: '$kImagesPath/roberto-nickson-g-549146-unsplash.jpg',
         price: 0.4,
         description: 'Description',
+        country: 'Nigeria'
       ),
       Location(
         title: 'Santorini',
@@ -71,6 +72,7 @@ class Discovery extends StatelessWidget {
         imageUrl: '$kImagesPath/simone-hutsch-699861-unsplash.jpg',
         price: 0.5,
         description: 'Description',
+        country: 'Nigeria'
       ),
       Location(
         title: 'Marrakech',
@@ -78,6 +80,7 @@ class Discovery extends StatelessWidget {
         imageUrl: '$kImagesPath/kenny-luo-516116-unsplash.jpg',
         price: 2.8,
         description: 'Description',
+        country: 'Nigeria'
       ),
     ];
 

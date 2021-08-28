@@ -70,7 +70,7 @@ class LocationSliderCard extends StatelessWidget {
                         location.place.toUpperCase(),
                         style: const TextStyle(
                           fontSize: 16,
-                          color: Color(0xffafb6c1),
+                          color: kNoteTextColorDarker,
                         ),
                       )
                     ],

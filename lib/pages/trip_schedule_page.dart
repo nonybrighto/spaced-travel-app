@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:spaced_trip_scheduler/models/location.dart';
 import 'package:spaced_trip_scheduler/widgets/location_time_slider.dart';
 import 'package:spaced_trip_scheduler/widgets/passenger_slider.dart';
+import 'package:spaced_trip_scheduler/widgets/payment_slider.dart';
 
 import '../constants.dart';
 
@@ -20,7 +21,9 @@ class _TripSchedulePageState extends State<TripSchedulePage>
     with TickerProviderStateMixin {
   late AnimationController _locationTimeSliderController;
   late AnimationController _passengerSliderController;
+  late AnimationController _paymentSliderController;
   bool locationDetailsCompleted = false;
+  bool showLocationTimeCompletedInfo = false;
 
   @override
   void initState() {
@@ -31,10 +34,12 @@ class _TripSchedulePageState extends State<TripSchedulePage>
     _passengerSliderController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 800));
 
-    _locationTimeSliderController.addListener(() async {
-      if (_locationTimeSliderController.isCompleted) {
-        await Future.delayed(const Duration(seconds: 2));
-        _passengerSliderController.animateTo(0.5);
+    _paymentSliderController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 800));
+
+    _passengerSliderController.addListener(() {
+      if (_passengerSliderController.value > 0.75) {
+        _paymentSliderController.animateTo(0.1);
       }
     });
   }
@@ -97,6 +102,10 @@ class _TripSchedulePageState extends State<TripSchedulePage>
             children: [
               LocationTimeSlider(
                 controller: _locationTimeSliderController,
+                destinationLocation: widget.location,
+                showCompletedInfo: showLocationTimeCompletedInfo,
+                onSearchCompleted: () =>
+                    _passengerSliderController.animateTo(0.4),
                 onCompleted: () {
                   setState(() {
                     locationDetailsCompleted = true;
@@ -106,6 +115,19 @@ class _TripSchedulePageState extends State<TripSchedulePage>
               PassengerSlider(
                 controller: _passengerSliderController,
                 activate: locationDetailsCompleted,
+                onOpened: () {
+                  setState(() {
+                    showLocationTimeCompletedInfo = true;
+                  });
+                },
+              ),
+              PaymentSlider(
+                controller: _paymentSliderController,
+                onOpened: () {
+                  setState(() {
+                    showLocationTimeCompletedInfo = true;
+                  });
+                },
               )
             ],
           ),
