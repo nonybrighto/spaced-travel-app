@@ -43,6 +43,11 @@ class _MyAppState extends State<MyApp> {
             fontFamily: 'SFProText',
           ),
         ),
+        textButtonTheme: TextButtonThemeData(
+          style: TextButton.styleFrom(
+            primary: kPrimaryColor, // This is a custom color variable
+          ),
+        ),
       ),
       home: const HomePage(),
     );

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:spaced_trip_scheduler/constants.dart';
+import 'package:spaced_trip_scheduler/pages/payment_success_page.dart';
+import 'package:page_transition/page_transition.dart';
 
 class PaymentSlider extends StatefulWidget {
   final AnimationController controller;
@@ -64,9 +66,18 @@ class _PaymentSliderState extends State<PaymentSlider> {
                             padding: const EdgeInsets.symmetric(
                               vertical: 30,
                             ),
-                            child: Image.asset(
-                              '$kIconsPath/animated_face.gif',
-                              height: 120,
+                            child: GestureDetector(
+                              child: Image.asset(
+                                '$kIconsPath/animated_face.gif',
+                                height: 120,
+                              ),
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    PageTransition(
+                                        type: PageTransitionType.bottomToTop,
+                                        child: const PaymentSuccessPage()));
+                              },
                             ),
                           ),
                           Text(
@@ -75,34 +86,32 @@ class _PaymentSliderState extends State<PaymentSlider> {
                           ),
                         ])),
                   ),
-                  if (1 != 1)
-                    Align(
-                        alignment: Alignment.topCenter,
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Image.asset('$kIconsPath/apple.png'),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            const Text('PAY')
-                          ],
-                        )),
-                  if (1 != 1)
-                    Positioned(
-                      right: 0,
-                      top: -10,
-                      child: IconButton(
-                        icon: const Icon(
-                          Icons.expand_less,
-                          color: Colors.white,
-                        ),
-                        onPressed: () {
-                          widget.controller.animateTo(0.63);
-                          widget.onOpened();
-                        },
+                  Align(
+                      alignment: Alignment.topCenter,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Image.asset('$kIconsPath/apple.png'),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          const Text('PAY')
+                        ],
+                      )),
+                  Positioned(
+                    right: 0,
+                    top: -10,
+                    child: IconButton(
+                      icon: const Icon(
+                        Icons.expand_less,
+                        color: Colors.white,
                       ),
+                      onPressed: () {
+                        widget.controller.animateTo(0.63);
+                        widget.onOpened();
+                      },
                     ),
+                  ),
                 ],
               ),
             );
