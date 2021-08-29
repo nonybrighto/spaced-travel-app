@@ -51,36 +51,58 @@ class _PaymentSliderState extends State<PaymentSlider> {
                     top: 25,
                     child: SingleChildScrollView(
                         controller: controller,
-                        child: Column(children: const [
-                          Text('Hello'),
+                        child: Column(children: [
+                          const Text('TOTAL'),
+                          const SizedBox(
+                            height: 16,
+                          ),
+                          const Text(
+                            '2.4 BTC',
+                            style: kHeadingStyle,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 30,
+                            ),
+                            child: Image.asset(
+                              '$kIconsPath/animated_face.gif',
+                              height: 120,
+                            ),
+                          ),
+                          Text(
+                            'Scan face to Complete',
+                            style: kHeadingStyle.copyWith(fontSize: 25),
+                          ),
                         ])),
                   ),
-                  Align(
-                      alignment: Alignment.topCenter,
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Image.asset('$kIconsPath/apple.png'),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          const Text('PAY')
-                        ],
-                      )),
-                  Positioned(
-                    right: 0,
-                    top: -10,
-                    child: IconButton(
-                      icon: const Icon(
-                        Icons.expand_less,
-                        color: Colors.white,
+                  if (1 != 1)
+                    Align(
+                        alignment: Alignment.topCenter,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Image.asset('$kIconsPath/apple.png'),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            const Text('PAY')
+                          ],
+                        )),
+                  if (1 != 1)
+                    Positioned(
+                      right: 0,
+                      top: -10,
+                      child: IconButton(
+                        icon: const Icon(
+                          Icons.expand_less,
+                          color: Colors.white,
+                        ),
+                        onPressed: () {
+                          widget.controller.animateTo(0.63);
+                          widget.onOpened();
+                        },
                       ),
-                      onPressed: () {
-                        widget.controller.animateTo(0.63);
-                        widget.onOpened();
-                      },
                     ),
-                  ),
                 ],
               ),
             );
