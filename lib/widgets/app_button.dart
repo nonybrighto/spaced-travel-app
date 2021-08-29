@@ -29,7 +29,7 @@ class AppButton extends StatelessWidget {
                 horizontal: 10,
                 vertical: 10,
               ),
-              child: child ?? Text(title),
+              child: Center(child: child ?? Text(title)),
             ),
             onTap: onPressed,
           ),
