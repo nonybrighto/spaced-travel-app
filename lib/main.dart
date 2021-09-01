@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:spaced_trip_scheduler/constants.dart';
-import 'package:spaced_trip_scheduler/pages/authentication_page.dart';
-import 'package:spaced_trip_scheduler/pages/home_page.dart';
+import 'package:spaced_trip_scheduler/pages/onboarding_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -50,7 +49,7 @@ class _MyAppState extends State<MyApp> {
           ),
         ),
       ),
-      home: const AuthenticationPage(),
+      home: const Onboarding(),
     );
   }
 }

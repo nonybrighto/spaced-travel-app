@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spaced_trip_scheduler/constants.dart';
+import 'package:spaced_trip_scheduler/widgets/user_avatar.dart';
 
 class BaseView extends StatelessWidget {
   final Widget body;
@@ -44,10 +45,7 @@ class BaseView extends StatelessWidget {
           IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
           const Padding(
             padding: EdgeInsets.only(right: kDefaultPadding),
-            child: CircleAvatar(
-              radius: 30,
-              backgroundImage: AssetImage('assets/images/profile_pics.png'),
-            ),
+            child: UserAvatar(),
           )
         ],
       ),

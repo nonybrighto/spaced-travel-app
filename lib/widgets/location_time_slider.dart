@@ -167,7 +167,7 @@ class _LocationTimeSliderState extends State<LocationTimeSlider> {
             children: [
           TextSpan(
               text: info.toUpperCase(),
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white,
               )),
         ]));
@@ -182,17 +182,17 @@ class _LocationTimeSliderState extends State<LocationTimeSlider> {
             '$kIconsPath/progress.png',
             width: 200,
           ),
-          SizedBox(height: 25),
+          const SizedBox(height: 25),
           Text(
             'Finding your location',
             style: kHeadingStyle.copyWith(fontSize: 30),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           SizedBox(
             width: MediaQuery.of(context).size.width * 2 / 4,
-            child: Text(
+            child: const Text(
               'One moment while we get your location',
               textAlign: TextAlign.center,
               style: TextStyle(color: kNoteTextColorDarker, fontSize: 20),

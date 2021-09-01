@@ -49,10 +49,10 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Image.asset('$kImagesPath/logo.png'),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
-                          Text('To space and back safely')
+                          const Text('To space and back safely')
                         ],
                       ),
                     ),
@@ -67,29 +67,29 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Image.asset('$kIconsPath/google.png'),
-                              SizedBox(
+                              const SizedBox(
                                 width: 10,
                               ),
-                              Text(
+                              const Text(
                                 'Continue with Google',
-                                style: TextStyle(color: Color(0XFF1D1F22)),
+                                style: TextStyle(color: Color(0xff1d1f22)),
                               )
                             ],
                           ),
                         ),
                         onPressed: () {}),
                   ),
-                  SizedBox(height: 15),
+                  const SizedBox(height: 15),
                   SizedBox(
                     width: double.infinity,
                     child: AppButton(
-                        child: Padding(
+                        child: const Padding(
                           padding: buttonPadding,
                           child: Text('Use email or Phone instead'),
                         ),
                         onPressed: () {}),
                   ),
-                  SizedBox(height: 35),
+                  const SizedBox(height: 35),
                   RichText(
                       textAlign: TextAlign.center,
                       text: TextSpan(
