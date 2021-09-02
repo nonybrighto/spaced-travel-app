@@ -10,7 +10,9 @@ class DotIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // double lineWidth = (count - 1 * spacing) + (dotSize * count);
+    double progressWidth = currentIndex * spacing +
+        (dotSize *
+            currentIndex); //total spacing + dot size before and for index
     return Stack(
       fit: StackFit.loose,
       children: [
@@ -25,9 +27,10 @@ class DotIndicator extends StatelessWidget {
         Positioned.fill(
           child: Align(
             alignment: Alignment.centerLeft,
-            child: Container(
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 500),
               height: 3,
-              width: currentIndex * spacing + (dotSize * currentIndex),
+              width: progressWidth,
               color: Colors.white,
             ),
           ),
