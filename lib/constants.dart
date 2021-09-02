@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 //dimensions
 const kDefaultPadding = 25.0;
-const kOnboardingIndicatorHeight = 60.0;
+const kOnboardingIndicatorHeight = 80.0;
 
 //paths
 const kImagesPath = 'assets/images';

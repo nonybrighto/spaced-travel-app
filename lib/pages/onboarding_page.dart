@@ -6,6 +6,7 @@ import 'package:spaced_trip_scheduler/pages/onboarding_views/rentals_view.dart';
 import 'package:spaced_trip_scheduler/pages/onboarding_views/second_discovery_view.dart';
 import 'package:spaced_trip_scheduler/pages/onboarding_views/travel_view.dart';
 import 'package:spaced_trip_scheduler/widgets/animated_stacked_index.dart';
+import 'package:spaced_trip_scheduler/widgets/dot_indicator.dart';
 
 class Onboarding extends StatefulWidget {
   const Onboarding({Key? key}) : super(key: key);
@@ -35,13 +36,24 @@ class _OnboardingState extends State<Onboarding> {
           child: Container(
             alignment: Alignment.center,
             height: kOnboardingIndicatorHeight,
-            child: GestureDetector(
-              child: const Text('Skip'),
-              onTap: () {
-                setState(() {
-                  index++;
-                });
-              },
+            child: Column(
+              children: [
+                DotIndicator(
+                  count: 5,
+                  currentIndex: index,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                GestureDetector(
+                  child: const Text('Next'),
+                  onTap: () {
+                    setState(() {
+                      index++;
+                    });
+                  },
+                ),
+              ],
             ),
           ),
         )
