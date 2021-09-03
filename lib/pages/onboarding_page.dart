@@ -15,6 +15,14 @@ class Onboarding extends StatefulWidget {
   _OnboardingState createState() => _OnboardingState();
 }
 
+const List<Widget> onboardingScreens = [
+  ProfileView(),
+  DiscoveryView(),
+  SecondDiscoveryView(),
+  TravelView(),
+  RentalsView(),
+];
+
 class _OnboardingState extends State<Onboarding> {
   int index = 0;
   @override
@@ -27,13 +35,7 @@ class _OnboardingState extends State<Onboarding> {
     return Scaffold(
         body: Stack(
       children: [
-        AnimatedIndexedStack(index: index, children: const [
-          ProfileView(),
-          DiscoveryView(),
-          SecondDiscoveryView(),
-          TravelView(),
-          RentalsView(),
-        ]),
+        AnimatedIndexedStack(index: index, children: onboardingScreens),
         Positioned(
           right: 10,
           top: 50,
@@ -58,13 +60,13 @@ class _OnboardingState extends State<Onboarding> {
             child: Column(
               children: [
                 DotIndicator(
-                  count: 5,
+                  count: onboardingScreens.length,
                   currentIndex: index,
                 ),
                 const SizedBox(
                   height: 10,
                 ),
-                (index != 4)
+                (index != onboardingScreens.length - 1)
                     ? TextButton(
                         child: const Text(
                           'Next',
