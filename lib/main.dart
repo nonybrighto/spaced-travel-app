@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:spaced_trip_scheduler/constants.dart';
 import 'package:spaced_trip_scheduler/pages/onboarding_page.dart';
-import 'package:spaced_trip_scheduler/widgets/calendar.dart';
-import 'package:spaced_trip_scheduler/widgets/range_picker.dart';
 
 void main() {
   runApp(const MyApp());
@@ -51,8 +49,8 @@ class _MyAppState extends State<MyApp> {
           ),
         ),
       ),
-      home: const Calendar(),
-      // home: TableRangeExample(),
+      // home: const Calendar(),
+      home: const Onboarding(),
     );
   }
 }

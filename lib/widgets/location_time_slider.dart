@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:spaced_trip_scheduler/constants.dart';
 import 'package:spaced_trip_scheduler/models/location.dart';
 import 'package:spaced_trip_scheduler/widgets/app_button.dart';
+import 'package:spaced_trip_scheduler/widgets/calendar.dart';
 import 'package:spaced_trip_scheduler/widgets/location_info_item.dart';
 
 class LocationTimeSlider extends StatefulWidget {
@@ -30,6 +31,17 @@ class _LocationTimeSliderState extends State<LocationTimeSlider> {
   bool _searchingForCurrentLocation = false;
   late Location _currentLocation;
   String selectedDepatureTime = '';
+
+  List<String> depatureTimes = [
+    '5:00 AM',
+    '12:30 PM',
+    '6:00 PM',
+    '9:30 PM',
+  ];
+
+  DateTime? _startDate =
+      DateTime(2021, 9, 6); //TODO: Create model for trip schedule later
+  DateTime? _endDate = DateTime(2021, 9, 14);
 
   @override
   void initState() {
@@ -108,12 +120,6 @@ class _LocationTimeSliderState extends State<LocationTimeSlider> {
   }
 
   _displaySelectionInfo() {
-    List<String> depatureTimes = [
-      '5:00 AM',
-      '12:30 PM',
-      '6:00 PM',
-      '9:30 PM',
-    ];
     return Column(children: [
       Padding(
         padding: const EdgeInsets.all(kDefaultPadding),
@@ -130,33 +136,51 @@ class _LocationTimeSliderState extends State<LocationTimeSlider> {
       ),
       Padding(
         padding: const EdgeInsets.all(kDefaultPadding),
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: [
-              for (String time in depatureTimes)
-                Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: AppButton(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(time),
-                      ),
-                      color: selectedDepatureTime == time
-                          ? Theme.of(context).primaryColor
-                          : const Color(0xff2d2d2d),
-                      onPressed: () {
-                        setState(() {
-                          selectedDepatureTime = time;
-                          widget.onCompleted();
-                        });
-                      }),
-                )
-            ],
-          ),
+        child: Column(
+          children: [
+            Calendar(
+              startDate: _startDate,
+              endDate: _endDate,
+              onRangeChanged: (startDate, endDate) {
+                setState(() {
+                  _startDate = startDate;
+                  _endDate = endDate;
+                });
+              },
+            ),
+            _buildDepatureTimeSelector(),
+          ],
         ),
       )
     ]);
+  }
+
+  _buildDepatureTimeSelector() {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: [
+          for (String time in depatureTimes)
+            Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: AppButton(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(time),
+                  ),
+                  color: selectedDepatureTime == time
+                      ? Theme.of(context).primaryColor
+                      : const Color(0xff2d2d2d),
+                  onPressed: () {
+                    setState(() {
+                      selectedDepatureTime = time;
+                      widget.onCompleted();
+                    });
+                  }),
+            )
+        ],
+      ),
+    );
   }
 
   _buildTimeInfo(String title, String info) {
