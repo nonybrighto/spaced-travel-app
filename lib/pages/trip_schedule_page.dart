@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:spaced_trip_scheduler/models/location.dart';
-import 'package:spaced_trip_scheduler/widgets/location_time_slider.dart';
-import 'package:spaced_trip_scheduler/widgets/passenger_slider.dart';
-import 'package:spaced_trip_scheduler/widgets/payment_slider.dart';
+import 'package:spaced_trip_scheduler/models/trip.dart';
+import 'package:spaced_trip_scheduler/pages/trip_schedule_views/location_time_slider.dart';
+import 'package:spaced_trip_scheduler/pages/trip_schedule_views/passenger_slider.dart';
+import 'package:spaced_trip_scheduler/pages/trip_schedule_views/payment_slider.dart';
 
 import '../constants.dart';
 
@@ -19,35 +20,14 @@ class TripSchedulePage extends StatefulWidget {
 
 class _TripSchedulePageState extends State<TripSchedulePage>
     with TickerProviderStateMixin {
-  late AnimationController _locationTimeSliderController;
-  late AnimationController _passengerSliderController;
-  late AnimationController _paymentSliderController;
-  bool locationDetailsCompleted = false;
   bool showLocationTimeCompletedInfo = false;
+  late Trip _trip;
+  int _currentSlider = 0;
 
   @override
   void initState() {
     super.initState();
-    _locationTimeSliderController = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 800))
-      ..forward();
-    _passengerSliderController = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 800));
-
-    _paymentSliderController = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 800));
-
-    _passengerSliderController.addListener(() {
-      if (_passengerSliderController.value > 0.75) {
-        _paymentSliderController.animateTo(0.1);
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _locationTimeSliderController.dispose();
+    _trip = Trip(destination: widget.location);
   }
 
   @override
@@ -101,38 +81,49 @@ class _TripSchedulePageState extends State<TripSchedulePage>
           body: Stack(
             children: [
               LocationTimeSlider(
-                controller: _locationTimeSliderController,
+                trip: _trip,
                 destinationLocation: widget.location,
-                showCompletedInfo: showLocationTimeCompletedInfo,
-                onSearchCompleted: () =>
-                    _passengerSliderController.animateTo(0.4),
-                onCompleted: () {
+                showCompletedInfo: _currentSlider != 0,
+                onTripChanged: (trip) {
                   setState(() {
-                    locationDetailsCompleted = true;
+                    _trip = trip;
                   });
                 },
               ),
-              PassengerSlider(
-                controller: _passengerSliderController,
-                activate: locationDetailsCompleted,
-                onOpened: () {
-                  setState(() {
-                    showLocationTimeCompletedInfo = true;
-                  });
-                },
-              ),
-              PaymentSlider(
-                controller: _paymentSliderController,
-                onOpened: () {
-                  setState(() {
-                    showLocationTimeCompletedInfo = true;
-                  });
-                },
-              )
+              if (_trip.source != null)
+                PassengerSlider(
+                  trip: _trip,
+                  showCompletedInfo: _currentSlider == 2,
+                  enabled: _timeDetailsCompleted(),
+                  onTripChanged: (trip) {
+                    setState(() {
+                      _trip = trip;
+                    });
+                  },
+                  onToggled: (isOpen) {
+                    _changeCurrentSlider(isOpen);
+                  },
+                ),
+              if (_currentSlider != 0)
+                PaymentSlider(
+                  trip: _trip,
+                  onToggled: (isOpen) {
+                    _changeCurrentSlider(isOpen);
+                  },
+                )
             ],
           ),
         ),
       ],
     );
+  }
+
+  bool _timeDetailsCompleted() =>
+      _trip.startDate != null && _trip.depatureTime != null;
+
+  _changeCurrentSlider(bool isSliderOpen) {
+    setState(() {
+      _currentSlider = isSliderOpen ? _currentSlider + 1 : _currentSlider - 1;
+    });
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:spaced_trip_scheduler/constants.dart';
-import 'package:spaced_trip_scheduler/pages/onboarding_page.dart';
+import 'package:spaced_trip_scheduler/pages/home_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -25,6 +25,7 @@ class _MyAppState extends State<MyApp> {
         brightness: Brightness.light,
         scaffoldBackgroundColor: kBackgroundColor,
         primarySwatch: Colors.grey,
+        unselectedWidgetColor: Colors.white,
         primaryColor: kPrimaryColor,
         appBarTheme: const AppBarTheme(
           elevation: 0,
@@ -50,7 +51,7 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
       // home: const Calendar(),
-      home: const Onboarding(),
+      home: const HomePage(),
     );
   }
 }

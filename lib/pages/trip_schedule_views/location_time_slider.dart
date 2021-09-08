@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:spaced_trip_scheduler/constants.dart';
 import 'package:spaced_trip_scheduler/models/location.dart';
+import 'package:spaced_trip_scheduler/models/trip.dart';
 import 'package:spaced_trip_scheduler/widgets/app_button.dart';
 import 'package:spaced_trip_scheduler/widgets/calendar.dart';
 import 'package:spaced_trip_scheduler/widgets/location_info_item.dart';
+import 'package:spaced_trip_scheduler/widgets/circular_progress.dart';
 
 class LocationTimeSlider extends StatefulWidget {
-  final AnimationController controller;
-  final VoidCallback onCompleted;
-  final VoidCallback onSearchCompleted;
+  final Trip trip;
   final Location destinationLocation;
+  final Function(Trip) onTripChanged;
   final bool showCompletedInfo;
   const LocationTimeSlider({
     Key? key,
-    required this.controller,
-    required this.onCompleted,
     required this.destinationLocation,
     required this.showCompletedInfo,
-    required this.onSearchCompleted,
+    required this.trip,
+    required this.onTripChanged,
   }) : super(key: key);
 
   @override
@@ -25,12 +25,8 @@ class LocationTimeSlider extends StatefulWidget {
 }
 
 class _LocationTimeSliderState extends State<LocationTimeSlider> {
-  final Tween<Offset> _slideTween =
-      Tween(begin: const Offset(0, 1), end: const Offset(0, 0));
-  late Animation<Color?> _backgroundColorTween;
   bool _searchingForCurrentLocation = false;
-  late Location _currentLocation;
-  String selectedDepatureTime = '';
+  late Trip _trip;
 
   List<String> depatureTimes = [
     '5:00 AM',
@@ -39,28 +35,25 @@ class _LocationTimeSliderState extends State<LocationTimeSlider> {
     '9:30 PM',
   ];
 
-  DateTime? _startDate =
-      DateTime(2021, 9, 6); //TODO: Create model for trip schedule later
-  DateTime? _endDate = DateTime(2021, 9, 14);
-
   @override
   void initState() {
     super.initState();
-
+    _trip = widget.trip;
     _searchCurrentLocation();
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _backgroundColorTween =
-        ColorTween(begin: Theme.of(context).primaryColor, end: kBackgroundColor)
-            .animate(widget.controller);
   }
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
+    return Positioned.fill(
+      child: Container(
+        decoration: const BoxDecoration(
+            color: kBackgroundColor,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(35))),
         child: _searchingForCurrentLocation
             ? _buildLocationSearch()
             : SingleChildScrollView(
@@ -74,25 +67,8 @@ class _LocationTimeSliderState extends State<LocationTimeSlider> {
                           : _displaySelectionInfo()
                     ]),
               ),
-        animation: widget.controller,
-        builder: (context, child) {
-          return SlideTransition(
-            position: _slideTween.animate(widget.controller),
-            child: DraggableScrollableSheet(
-                expand: true,
-                initialChildSize: 0.99,
-                maxChildSize: 0.99,
-                builder: (context, _) {
-                  return Container(
-                    decoration: BoxDecoration(
-                        color: _backgroundColorTween.value,
-                        borderRadius: const BorderRadius.vertical(
-                            top: Radius.circular(35))),
-                    child: child,
-                  );
-                }),
-          );
-        });
+      ),
+    );
   }
 
   _displayCompletedInfo() {
@@ -102,7 +78,7 @@ class _LocationTimeSliderState extends State<LocationTimeSlider> {
         child: _buildLocation(Axis.horizontal),
       ),
       const Divider(
-        height: 30,
+        height: 1,
         thickness: 2,
         color: Color(0xff2b2d2f),
       ),
@@ -139,14 +115,22 @@ class _LocationTimeSliderState extends State<LocationTimeSlider> {
         child: Column(
           children: [
             Calendar(
-              startDate: _startDate,
-              endDate: _endDate,
+              startDate: widget.trip.startDate,
+              endDate: widget.trip.endDate,
               onRangeChanged: (startDate, endDate) {
                 setState(() {
-                  _startDate = startDate;
-                  _endDate = endDate;
+                  _trip.startDate = startDate;
+                  _trip.endDate = endDate;
+                  widget.onTripChanged(_trip);
                 });
               },
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 12.0),
+              child: Text(
+                'DEPATURE TIME',
+                style: TextStyle(fontSize: 13),
+              ),
             ),
             _buildDepatureTimeSelector(),
           ],
@@ -168,13 +152,13 @@ class _LocationTimeSliderState extends State<LocationTimeSlider> {
                     padding: const EdgeInsets.all(8.0),
                     child: Text(time),
                   ),
-                  color: selectedDepatureTime == time
+                  color: _trip.depatureTime == time
                       ? Theme.of(context).primaryColor
-                      : const Color(0xff2d2d2d),
+                      : kGreyBackgroundColor,
                   onPressed: () {
                     setState(() {
-                      selectedDepatureTime = time;
-                      widget.onCompleted();
+                      _trip.depatureTime = time;
+                      widget.onTripChanged(_trip);
                     });
                   }),
             )
@@ -202,10 +186,7 @@ class _LocationTimeSliderState extends State<LocationTimeSlider> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Image.asset(
-            '$kIconsPath/progress.png',
-            width: 200,
-          ),
+          const CircularProgress(),
           const SizedBox(height: 25),
           Text(
             'Finding your location',
@@ -237,7 +218,7 @@ class _LocationTimeSliderState extends State<LocationTimeSlider> {
         Expanded(
           flex: flex,
           child: LocationInfoItem(
-              location: _currentLocation,
+              location: _trip.source!,
               icon: Column(
                 children: [
                   Image.asset('$kIconsPath/location_from_circle.png'),
@@ -246,7 +227,7 @@ class _LocationTimeSliderState extends State<LocationTimeSlider> {
               )),
         ),
         const SizedBox(
-          height: 12,
+          height: 10,
           width: 30,
         ),
         Expanded(
@@ -266,14 +247,14 @@ class _LocationTimeSliderState extends State<LocationTimeSlider> {
     Future.delayed(const Duration(seconds: 3)).then((value) {
       setState(() {
         _searchingForCurrentLocation = false;
-        _currentLocation = Location(
+        _trip.source = Location(
             title: 'Lagos',
             place: 'LOS',
             country: 'Nigeria',
             imageUrl: '$kImagesPath/simone-hutsch-699861-unsplash.jpg',
             price: 500,
             description: 'My place');
-        widget.onSearchCompleted();
+        widget.onTripChanged(_trip);
       });
     });
   }

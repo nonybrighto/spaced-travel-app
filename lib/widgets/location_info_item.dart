@@ -32,17 +32,22 @@ class LocationInfoItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               RichText(
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
                 text: TextSpan(
-                    text: '${location.title}, ',
-                    children: [
-                      TextSpan(
-                        text: location.place,
-                        style: TextStyle(
-                          color: Theme.of(context).primaryColor,
-                        ),
-                      )
-                    ],
-                    style: kHeadingStyle.copyWith(fontSize: 24)),
+                  text: '${location.title}, ',
+                  children: [
+                    TextSpan(
+                      text: location.place,
+                      style: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    )
+                  ],
+                  style: kHeadingStyle.copyWith(
+                    fontSize: 20,
+                  ),
+                ),
               ),
               const SizedBox(
                 height: 5,
@@ -50,6 +55,7 @@ class LocationInfoItem extends StatelessWidget {
               Text(
                 '$directionString ${location.country}'.toUpperCase(),
                 overflow: TextOverflow.ellipsis,
+                maxLines: 2,
                 style: const TextStyle(
                   color: kNoteTextColorDarker,
                   fontSize: 15,
