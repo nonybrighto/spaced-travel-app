@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:spaced_trip_scheduler/constants.dart';
 import 'package:spaced_trip_scheduler/models/location.dart';
 import 'package:spaced_trip_scheduler/models/trip.dart';
+import 'package:spaced_trip_scheduler/widgets/animation/button_fill_transition.dart';
 import 'package:spaced_trip_scheduler/widgets/app_button.dart';
 import 'package:spaced_trip_scheduler/widgets/calendar.dart';
 import 'package:spaced_trip_scheduler/widgets/location_info_item.dart';
@@ -12,21 +13,25 @@ class LocationTimeSlider extends StatefulWidget {
   final Location destinationLocation;
   final Function(Trip) onTripChanged;
   final bool showCompletedInfo;
+  final Rect buttonRect;
   const LocationTimeSlider({
     Key? key,
     required this.destinationLocation,
     required this.showCompletedInfo,
     required this.trip,
     required this.onTripChanged,
+    required this.buttonRect,
   }) : super(key: key);
 
   @override
   _LocationTimeSliderState createState() => _LocationTimeSliderState();
 }
 
-class _LocationTimeSliderState extends State<LocationTimeSlider> {
+class _LocationTimeSliderState extends State<LocationTimeSlider>
+    with SingleTickerProviderStateMixin {
   bool _searchingForCurrentLocation = false;
   late Trip _trip;
+  late AnimationController _controller;
 
   List<String> depatureTimes = [
     '5:00 AM',
@@ -39,7 +44,16 @@ class _LocationTimeSliderState extends State<LocationTimeSlider> {
   void initState() {
     super.initState();
     _trip = widget.trip;
+    _controller = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 600))
+      ..forward();
     _searchCurrentLocation();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -49,25 +63,22 @@ class _LocationTimeSliderState extends State<LocationTimeSlider> {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned.fill(
-      child: Container(
-        decoration: const BoxDecoration(
-            color: kBackgroundColor,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(35))),
-        child: _searchingForCurrentLocation
-            ? _buildLocationSearch()
-            : SingleChildScrollView(
-                child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // _buildLocation(Axis.vertical),
-                      widget.showCompletedInfo
-                          ? _displayCompletedInfo()
-                          : _displaySelectionInfo()
-                    ]),
-              ),
-      ),
+    return ButtonFillTransition(
+      buttonRect: widget.buttonRect,
+      animation: _controller,
+      child: _searchingForCurrentLocation
+          ? _buildLocationSearch()
+          : SingleChildScrollView(
+              child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // _buildLocation(Axis.vertical),
+                    widget.showCompletedInfo
+                        ? _displayCompletedInfo()
+                        : _displaySelectionInfo()
+                  ]),
+            ),
     );
   }
 
@@ -183,27 +194,30 @@ class _LocationTimeSliderState extends State<LocationTimeSlider> {
 
   _buildLocationSearch() {
     return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const CircularProgress(),
-          const SizedBox(height: 25),
-          Text(
-            'Finding your location',
-            style: kHeadingStyle.copyWith(fontSize: 30),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 2 / 4,
-            child: const Text(
-              'One moment while we get your location',
-              textAlign: TextAlign.center,
-              style: TextStyle(color: kNoteTextColorDarker, fontSize: 20),
+      child: SingleChildScrollView( 
+        //adding a scrollview prevents overflow when the panel grows
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const CircularProgress(),
+            const SizedBox(height: 25),
+            Text(
+              'Finding your location',
+              style: kHeadingStyle.copyWith(fontSize: 30),
             ),
-          )
-        ],
+            const SizedBox(
+              height: 20,
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 2 / 4,
+              child: const Text(
+                'One moment while we get your location',
+                textAlign: TextAlign.center,
+                style: TextStyle(color: kNoteTextColorDarker, fontSize: 20),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

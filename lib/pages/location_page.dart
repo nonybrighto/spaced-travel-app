@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:spaced_trip_scheduler/helpers/no_animation_page_route.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:spaced_trip_scheduler/models/location.dart';
 import 'package:spaced_trip_scheduler/pages/trip_schedule_page.dart';
 
@@ -14,6 +14,7 @@ class LocationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final GlobalKey _key = GlobalKey();
     return Stack(
       children: [
         Positioned.fill(
@@ -59,50 +60,59 @@ class LocationPage extends StatelessWidget {
           body: Center(
             child: SingleChildScrollView(
               child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    location.title,
-                    style: kHeadingStyle.copyWith(fontSize: 42),
-                  ),
-                  _buildWeatherDisplay(),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: kDefaultPadding + 5,
-                    ),
-                    child: Text(
-                      '${location.description} Santorini is the largest city in the New '
-                      'Osogbo structure. It has a substantial '
-                      'atmosphere and is the most Earth-like '
-                      'satellite in the Solar System.',
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(fontSize: 21, height: 1.5),
+                children: AnimationConfiguration.toStaggeredList(
+                  duration: const Duration(milliseconds: 600),
+                  childAnimationBuilder: (widget) => SlideAnimation(
+                    verticalOffset: 190.0,
+                    child: FadeInAnimation(
+                      duration: const Duration(milliseconds: 600),
+                      child: widget,
                     ),
                   ),
-                  const SizedBox(
-                    height: 50,
-                  ),
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      _buildSecondaryInfo('colored_vr_icon', 'VR TOUR'),
-                      SizedBox(
-                          height: 36,
-                          child: VerticalDivider(
-                              thickness: 2,
-                              color: Colors.white.withOpacity(0.5),
-                              width: 55)),
-                      _buildSecondaryInfo('gallery', 'GALLERY')
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: kDefaultPadding,
-                      vertical: 30,
+                  children: [
+                    Text(
+                      location.title,
+                      style: kHeadingStyle.copyWith(fontSize: 42),
                     ),
-                    child: _buildButton(context),
-                  )
-                ],
+                    _buildWeatherDisplay(),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: kDefaultPadding + 5,
+                      ),
+                      child: Text(
+                        '${location.description} Santorini is the largest city in the New '
+                        'Osogbo structure. It has a substantial '
+                        'atmosphere and is the most Earth-like '
+                        'satellite in the Solar System.',
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(fontSize: 21, height: 1.5),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 50,
+                    ),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        _buildSecondaryInfo('colored_vr_icon', 'VR TOUR'),
+                        SizedBox(
+                            height: 36,
+                            child: VerticalDivider(
+                                thickness: 2,
+                                color: Colors.white.withOpacity(0.5),
+                                width: 55)),
+                        _buildSecondaryInfo('gallery', 'GALLERY')
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: kDefaultPadding,
+                        vertical: 30,
+                      ),
+                      child: _buildButton(context, _key),
+                    )
+                  ],
+                ),
               ),
             ),
           ),
@@ -111,9 +121,10 @@ class LocationPage extends StatelessWidget {
     );
   }
 
-  Widget _buildButton(BuildContext context) {
+  Widget _buildButton(BuildContext context, GlobalKey key) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(20),
+      key: key,
+      borderRadius: BorderRadius.circular(kTripScheduleButtonRadius),
       child: Container(
         color: kPrimaryColor,
         child: Material(
@@ -140,11 +151,14 @@ class LocationPage extends StatelessWidget {
               ),
             ),
             onTap: () {
-              //tapped
-              Navigator.of(context).push(NoAnimationPageRoute(
-                  builder: (context) => TripSchedulePage(
-                        location: location,
-                      )));
+              final RenderBox box =
+                  key.currentContext!.findRenderObject() as RenderBox;
+              final Rect sourceRect = box.localToGlobal(Offset.zero) & box.size;
+              Navigator.of(context).push<void>(PageRouteBuilder<void>(
+                pageBuilder: (BuildContext context, _, __) => TripSchedulePage(
+                    location: location, buttonRect: sourceRect),
+                transitionDuration: const Duration(milliseconds: 10),
+              ));
             },
           ),
         ),

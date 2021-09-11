@@ -9,9 +9,11 @@ import '../constants.dart';
 
 class TripSchedulePage extends StatefulWidget {
   final Location location;
+  final Rect buttonRect;
   const TripSchedulePage({
     Key? key,
     required this.location,
+    required this.buttonRect,
   }) : super(key: key);
 
   @override
@@ -19,15 +21,17 @@ class TripSchedulePage extends StatefulWidget {
 }
 
 class _TripSchedulePageState extends State<TripSchedulePage>
-    with TickerProviderStateMixin {
+    with SingleTickerProviderStateMixin {
   bool showLocationTimeCompletedInfo = false;
   late Trip _trip;
   int _currentSlider = 0;
+  // late AnimationController _controller;
 
   @override
   void initState() {
     super.initState();
     _trip = Trip(destination: widget.location);
+    // _controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 600));
   }
 
   @override
@@ -82,6 +86,7 @@ class _TripSchedulePageState extends State<TripSchedulePage>
             children: [
               LocationTimeSlider(
                 trip: _trip,
+                buttonRect: widget.buttonRect,
                 destinationLocation: widget.location,
                 showCompletedInfo: _currentSlider != 0,
                 onTripChanged: (trip) {

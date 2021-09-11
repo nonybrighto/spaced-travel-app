@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:spaced_trip_scheduler/constants.dart';
 
 class SlidingPanel extends StatefulWidget {
   final double maxHeight;
@@ -29,7 +30,7 @@ class _SlidingPanelState extends State<SlidingPanel> {
   final double _headerHeight = 80;
   @override
   Widget build(BuildContext context) {
-    const borderRadius = Radius.circular(30);
+    const borderRadius = Radius.circular(kPanelRadius);
     return SlidingUpPanel(
       maxHeight:
           _maxSize ? MediaQuery.of(context).size.height : widget.maxHeight,
