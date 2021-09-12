@@ -3,6 +3,7 @@ import 'package:spaced_trip_scheduler/constants.dart';
 import 'package:spaced_trip_scheduler/models/location.dart';
 import 'package:spaced_trip_scheduler/models/trip.dart';
 import 'package:spaced_trip_scheduler/widgets/animation/button_fill_transition.dart';
+import 'package:spaced_trip_scheduler/widgets/animation/faded_slide_transition.dart';
 import 'package:spaced_trip_scheduler/widgets/app_button.dart';
 import 'package:spaced_trip_scheduler/widgets/calendar.dart';
 import 'package:spaced_trip_scheduler/widgets/location_info_item.dart';
@@ -43,11 +44,6 @@ class _LocationTimeSliderState extends State<LocationTimeSlider>
     '6:00 PM',
     '9:30 PM',
   ];
-
-  // final _introSlideTween = Tween<Offset>(
-  //   begin: const Offset(0.0, 1.0),
-  //   end: Offset.zero,
-  // );
 
   @override
   void initState() {
@@ -122,21 +118,23 @@ class _LocationTimeSliderState extends State<LocationTimeSlider>
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 300),
       transitionBuilder: (child, animation) {
-        return SlideTransition(
-          position: Tween<Offset>(
+        return FadedSlideTransition(
+          animation: animation,
+          positionTween: Tween<Offset>(
             begin: const Offset(0.0, 1.0),
             end: Offset.zero,
-          ).animate(animation),
+          ),
           child: child,
         );
       },
       child: widget.showCompletedInfo
           ? _buildLocation(Axis.horizontal)
-          : SlideTransition(
-              position: Tween<Offset>(
+          : FadedSlideTransition(
+              animation: _locationIntroAnimation,
+              positionTween: Tween<Offset>(
                 begin: const Offset(0.0, 1.0),
                 end: Offset.zero,
-              ).animate(_locationIntroAnimation),
+              ),
               child: _buildLocation(Axis.vertical),
             ),
     );
@@ -144,15 +142,6 @@ class _LocationTimeSliderState extends State<LocationTimeSlider>
 
   _displayCompletedInfo() {
     return Column(children: [
-      // Padding(
-      //   padding: const EdgeInsets.all(kDefaultPadding),
-      //   child: _buildLocation('horizontal', Axis.horizontal),
-      // ),
-      // const Divider(
-      //   height: 1,
-      //   thickness: 2,
-      //   color: Color(0xff2b2d2f),
-      // ),
       Padding(
         padding: const EdgeInsets.all(kDefaultPadding),
         child: Row(
@@ -168,23 +157,29 @@ class _LocationTimeSliderState extends State<LocationTimeSlider>
 
   _displaySelectionInfo() {
     return Column(children: [
-      SlideTransition(
-        position: Tween<Offset>(
+      FadedSlideTransition(
+        animation: _calendarTitleIntroAnimation,
+        positionTween: Tween<Offset>(
           begin: const Offset(0.0, 3.0),
           end: Offset.zero,
-        ).animate(_calendarTitleIntroAnimation),
-        child: const Text(
-          'Trip Calendar',
-          style: kHeadingStyle,
+        ),
+        child: const Padding(
+          padding: EdgeInsets.only(top: kDefaultPadding),
+          child: Text(
+            'Trip Calendar',
+            style: kHeadingStyle,
+          ),
         ),
       ),
-      SlideTransition(
-        position: Tween<Offset>(
+      FadedSlideTransition(
+        positionTween: Tween<Offset>(
           begin: const Offset(0.0, 0.6),
           end: Offset.zero,
-        ).animate(_calendarTimeIntroAnimation),
+        ),
+        animation: _calendarTimeIntroAnimation,
         child: Padding(
-          padding: const EdgeInsets.all(kDefaultPadding),
+          padding: const EdgeInsets.symmetric(
+              horizontal: kDefaultPadding, vertical: 5),
           child: Column(
             children: [
               Calendar(
