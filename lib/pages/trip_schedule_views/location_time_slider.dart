@@ -106,9 +106,21 @@ class _LocationTimeSliderState extends State<LocationTimeSlider>
                       thickness: 2,
                       color: Color(0xff2b2d2f),
                     ),
-                    widget.showCompletedInfo
-                        ? _displayCompletedInfo()
-                        : _displaySelectionInfo()
+                    AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 300),
+                        transitionBuilder: (child, animation) {
+                          return FadedSlideTransition(
+                            animation: animation,
+                            positionTween: Tween<Offset>(
+                              begin: const Offset(0.0, 1.0),
+                              end: Offset.zero,
+                            ),
+                            child: child,
+                          );
+                        },
+                        child: widget.showCompletedInfo
+                            ? _displayCompletedInfo('completed')
+                            : _displaySelectionInfo('selection'))
                   ]),
             ),
     );
@@ -140,8 +152,8 @@ class _LocationTimeSliderState extends State<LocationTimeSlider>
     );
   }
 
-  _displayCompletedInfo() {
-    return Column(children: [
+  _displayCompletedInfo(String key) {
+    return Column(key: ValueKey(key), children: [
       Padding(
         padding: const EdgeInsets.all(kDefaultPadding),
         child: Row(
@@ -155,8 +167,8 @@ class _LocationTimeSliderState extends State<LocationTimeSlider>
     ]);
   }
 
-  _displaySelectionInfo() {
-    return Column(children: [
+  _displaySelectionInfo(String key) {
+    return Column(key: ValueKey(key), children: [
       FadedSlideTransition(
         animation: _calendarTitleIntroAnimation,
         positionTween: Tween<Offset>(
