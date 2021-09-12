@@ -28,10 +28,14 @@ class LocationTimeSlider extends StatefulWidget {
 }
 
 class _LocationTimeSliderState extends State<LocationTimeSlider>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   bool _searchingForCurrentLocation = false;
   late Trip _trip;
-  late AnimationController _controller;
+  late AnimationController _containerController;
+  late AnimationController _locationTimeIntroController;
+  late Animation<double> _locationIntroAnimation;
+  late Animation<double> _calendarTitleIntroAnimation;
+  late Animation<double> _calendarTimeIntroAnimation;
 
   List<String> depatureTimes = [
     '5:00 AM',
@@ -40,32 +44,56 @@ class _LocationTimeSliderState extends State<LocationTimeSlider>
     '9:30 PM',
   ];
 
+  // final _introSlideTween = Tween<Offset>(
+  //   begin: const Offset(0.0, 1.0),
+  //   end: Offset.zero,
+  // );
+
   @override
   void initState() {
     super.initState();
     _trip = widget.trip;
-    _controller = AnimationController(
+    _containerController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 600))
       ..forward();
+    _locationTimeIntroController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 800));
+
+    _locationIntroAnimation = CurvedAnimation(
+      parent: _locationTimeIntroController,
+      curve: Curves.ease,
+    );
+    _calendarTitleIntroAnimation = CurvedAnimation(
+      parent: _locationTimeIntroController,
+      curve: const Interval(0.2, 1.0, curve: Curves.ease),
+    );
+    _calendarTimeIntroAnimation = CurvedAnimation(
+      parent: _locationTimeIntroController,
+      curve: const Interval(0.4, 1.0, curve: Curves.ease),
+    );
     _searchCurrentLocation();
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    _containerController.dispose();
+    _locationTimeIntroController.dispose();
     super.dispose();
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+  void didUpdateWidget(covariant LocationTimeSlider oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // if (widget.showCompletedInfo && !oldWidget.showCompletedInfo) {
+    //   _locationTimeIntroController.forward();
+    // }
   }
 
   @override
   Widget build(BuildContext context) {
     return ButtonFillTransition(
       buttonRect: widget.buttonRect,
-      animation: _controller,
+      animation: _containerController,
       child: _searchingForCurrentLocation
           ? _buildLocationSearch()
           : SingleChildScrollView(
@@ -73,7 +101,15 @@ class _LocationTimeSliderState extends State<LocationTimeSlider>
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // _buildLocation(Axis.vertical),
+                    Padding(
+                      padding: const EdgeInsets.all(kDefaultPadding),
+                      child: _buildLocationDisplay(),
+                    ),
+                    const Divider(
+                      height: 1,
+                      thickness: 2,
+                      color: Color(0xff2b2d2f),
+                    ),
                     widget.showCompletedInfo
                         ? _displayCompletedInfo()
                         : _displaySelectionInfo()
@@ -82,17 +118,41 @@ class _LocationTimeSliderState extends State<LocationTimeSlider>
     );
   }
 
+  Widget _buildLocationDisplay() {
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 300),
+      transitionBuilder: (child, animation) {
+        return SlideTransition(
+          position: Tween<Offset>(
+            begin: const Offset(0.0, 1.0),
+            end: Offset.zero,
+          ).animate(animation),
+          child: child,
+        );
+      },
+      child: widget.showCompletedInfo
+          ? _buildLocation(Axis.horizontal)
+          : SlideTransition(
+              position: Tween<Offset>(
+                begin: const Offset(0.0, 1.0),
+                end: Offset.zero,
+              ).animate(_locationIntroAnimation),
+              child: _buildLocation(Axis.vertical),
+            ),
+    );
+  }
+
   _displayCompletedInfo() {
     return Column(children: [
-      Padding(
-        padding: const EdgeInsets.all(kDefaultPadding),
-        child: _buildLocation(Axis.horizontal),
-      ),
-      const Divider(
-        height: 1,
-        thickness: 2,
-        color: Color(0xff2b2d2f),
-      ),
+      // Padding(
+      //   padding: const EdgeInsets.all(kDefaultPadding),
+      //   child: _buildLocation('horizontal', Axis.horizontal),
+      // ),
+      // const Divider(
+      //   height: 1,
+      //   thickness: 2,
+      //   color: Color(0xff2b2d2f),
+      // ),
       Padding(
         padding: const EdgeInsets.all(kDefaultPadding),
         child: Row(
@@ -108,43 +168,46 @@ class _LocationTimeSliderState extends State<LocationTimeSlider>
 
   _displaySelectionInfo() {
     return Column(children: [
-      Padding(
-        padding: const EdgeInsets.all(kDefaultPadding),
-        child: _buildLocation(Axis.vertical),
+      SlideTransition(
+        position: Tween<Offset>(
+          begin: const Offset(0.0, 3.0),
+          end: Offset.zero,
+        ).animate(_calendarTitleIntroAnimation),
+        child: const Text(
+          'Trip Calendar',
+          style: kHeadingStyle,
+        ),
       ),
-      const Divider(
-        height: 30,
-        thickness: 2,
-        color: Color(0xff2b2d2f),
-      ),
-      const Text(
-        'Trip Calendar',
-        style: kHeadingStyle,
-      ),
-      Padding(
-        padding: const EdgeInsets.all(kDefaultPadding),
-        child: Column(
-          children: [
-            Calendar(
-              startDate: widget.trip.startDate,
-              endDate: widget.trip.endDate,
-              onRangeChanged: (startDate, endDate) {
-                setState(() {
-                  _trip.startDate = startDate;
-                  _trip.endDate = endDate;
-                  widget.onTripChanged(_trip);
-                });
-              },
-            ),
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 12.0),
-              child: Text(
-                'DEPATURE TIME',
-                style: TextStyle(fontSize: 13),
+      SlideTransition(
+        position: Tween<Offset>(
+          begin: const Offset(0.0, 0.6),
+          end: Offset.zero,
+        ).animate(_calendarTimeIntroAnimation),
+        child: Padding(
+          padding: const EdgeInsets.all(kDefaultPadding),
+          child: Column(
+            children: [
+              Calendar(
+                startDate: widget.trip.startDate,
+                endDate: widget.trip.endDate,
+                onRangeChanged: (startDate, endDate) {
+                  setState(() {
+                    _trip.startDate = startDate;
+                    _trip.endDate = endDate;
+                    widget.onTripChanged(_trip);
+                  });
+                },
               ),
-            ),
-            _buildDepatureTimeSelector(),
-          ],
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 12.0),
+                child: Text(
+                  'DEPATURE TIME',
+                  style: TextStyle(fontSize: 13),
+                ),
+              ),
+              _buildDepatureTimeSelector(),
+            ],
+          ),
         ),
       )
     ]);
@@ -194,7 +257,7 @@ class _LocationTimeSliderState extends State<LocationTimeSlider>
 
   _buildLocationSearch() {
     return Center(
-      child: SingleChildScrollView( 
+      child: SingleChildScrollView(
         //adding a scrollview prevents overflow when the panel grows
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -226,7 +289,6 @@ class _LocationTimeSliderState extends State<LocationTimeSlider>
     int flex = axis == Axis.horizontal ? 1 : 0;
     return Flex(
       direction: axis,
-      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
@@ -236,7 +298,12 @@ class _LocationTimeSliderState extends State<LocationTimeSlider>
               icon: Column(
                 children: [
                   Image.asset('$kIconsPath/location_from_circle.png'),
-                  Image.asset('$kIconsPath/location_from_line.png'),
+                  SlideTransition(
+                      position: Tween<Offset>(
+                        begin: const Offset(0.0, 1.5),
+                        end: Offset.zero,
+                      ).animate(_locationIntroAnimation),
+                      child: Image.asset('$kIconsPath/location_from_line.png')),
                 ],
               )),
         ),
@@ -269,6 +336,7 @@ class _LocationTimeSliderState extends State<LocationTimeSlider>
             price: 500,
             description: 'My place');
         widget.onTripChanged(_trip);
+        _locationTimeIntroController.forward();
       });
     });
   }
