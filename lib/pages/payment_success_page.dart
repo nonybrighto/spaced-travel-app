@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:spaced_trip_scheduler/constants.dart';
 import 'package:spaced_trip_scheduler/pages/home_page.dart';
 
@@ -38,21 +39,34 @@ class PaymentSuccessPage extends StatelessWidget {
                   children: [
                     Image.asset('$kIconsPath/check.png'),
                     spacer,
-                    const Text(
-                      "You're all set!",
-                      style: kHeadingStyle,
-                    ),
-                    spacer,
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width / 2,
-                      child: const Text(
-                        "A summary has been sent to your inbox",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: kNoteTextColorDarker,
-                            fontSize: 20,
-                            height: 1.5),
-                      ),
+                    Column(
+                      children: AnimationConfiguration.toStaggeredList(
+                          duration: const Duration(milliseconds: 600),
+                          childAnimationBuilder: (widget) => SlideAnimation(
+                                verticalOffset: 25.0,
+                                child: FadeInAnimation(
+                                  duration: const Duration(milliseconds: 600),
+                                  child: widget,
+                                ),
+                              ),
+                          children: [
+                            const Text(
+                              "You're all set!",
+                              style: kHeadingStyle,
+                            ),
+                            spacer,
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width / 2,
+                              child: const Text(
+                                "A summary has been sent to your inbox",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: kNoteTextColorDarker,
+                                    fontSize: 20,
+                                    height: 1.5),
+                              ),
+                            ),
+                          ]),
                     ),
                     spacer,
                     _buildTicket(context),
@@ -63,8 +77,10 @@ class PaymentSuccessPage extends StatelessWidget {
                         style: TextStyle(fontSize: 20),
                       ),
                       onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const HomePage()));
+                        Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(
+                                builder: (context) => const HomePage()),
+                            (route) => false);
                       },
                     )
                   ],
@@ -112,11 +128,20 @@ class PaymentSuccessPage extends StatelessWidget {
                   child: Center(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Image.asset('$kIconsPath/qr.png'),
-                    const SizedBox(height: 20),
-                    const Text('9574N 8392'),
-                  ],
+                  children: AnimationConfiguration.toStaggeredList(
+                      duration: const Duration(milliseconds: 600),
+                      childAnimationBuilder: (widget) => SlideAnimation(
+                            verticalOffset: 25.0,
+                            child: FadeInAnimation(
+                              duration: const Duration(milliseconds: 600),
+                              child: widget,
+                            ),
+                          ),
+                      children: [
+                        Image.asset('$kIconsPath/qr.png'),
+                        const SizedBox(height: 20),
+                        const Text('9574N 8392'),
+                      ]),
                 ),
               ))
             ],

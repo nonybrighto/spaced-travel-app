@@ -18,6 +18,7 @@ class BaseView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
+        automaticallyImplyLeading: false,
         title: Padding(
           padding: const EdgeInsets.only(left: 10.0),
           child: Text(

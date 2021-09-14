@@ -5,6 +5,7 @@ import 'package:spaced_trip_scheduler/pages/payment_success_page.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:spaced_trip_scheduler/widgets/animation/faded_slide_transition.dart';
 import 'package:spaced_trip_scheduler/widgets/sliding_panel.dart';
+import 'dart:async';
 
 class PaymentSlider extends StatefulWidget {
   final Trip trip;
@@ -26,6 +27,7 @@ class _PaymentSliderState extends State<PaymentSlider> {
   late Animation<double> _amountAnimation;
   late Animation<double> _faceAnimation;
   late Animation<double> _noteAnimation;
+  late Timer timer;
 
   @override
   void initState() {
@@ -62,7 +64,15 @@ class _PaymentSliderState extends State<PaymentSlider> {
           const Text('PAY')
         ],
       ),
-      onToggled: widget.onToggled,
+      onToggled: (isOpen) {
+        widget.onToggled(isOpen);
+        if (isOpen) {
+          timer =
+              Timer(const Duration(seconds: 6), () => _navigateToSuccessPage());
+        } else {
+          timer.cancel();
+        }
+      },
       maxHeight: MediaQuery.of(context).size.height - 350,
       color: kGreyBackgroundColor,
       child: SingleChildScrollView(
@@ -105,11 +115,7 @@ class _PaymentSliderState extends State<PaymentSlider> {
                   height: 120,
                 ),
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      PageTransition(
-                          type: PageTransitionType.bottomToTop,
-                          child: const PaymentSuccessPage()));
+                  _navigateToSuccessPage();
                 },
               ),
             ),
@@ -128,5 +134,14 @@ class _PaymentSliderState extends State<PaymentSlider> {
         ]),
       ),
     );
+  }
+
+  _navigateToSuccessPage() {
+    timer.cancel();
+    Navigator.push(
+        context,
+        PageTransition(
+            type: PageTransitionType.bottomToTop,
+            child: const PaymentSuccessPage()));
   }
 }
