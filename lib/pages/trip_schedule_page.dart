@@ -21,17 +21,38 @@ class TripSchedulePage extends StatefulWidget {
 }
 
 class _TripSchedulePageState extends State<TripSchedulePage>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   bool showLocationTimeCompletedInfo = false;
   late Trip _trip;
   int _currentSlider = 0;
-  // late AnimationController _controller;
+  late AnimationController _locationTimeIntroController;
+  late AnimationController _passengarIntroController;
+  late AnimationController _paymentIntroController;
 
   @override
   void initState() {
     super.initState();
     _trip = Trip(destination: widget.location);
-    // _controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 600));
+    _locationTimeIntroController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 800),
+    );
+    _passengarIntroController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 800),
+    );
+    _paymentIntroController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 800),
+    );
+  }
+
+  @override
+  void dispose() {
+    _locationTimeIntroController.dispose();
+    _passengarIntroController.dispose();
+    _paymentIntroController.dispose();
+    super.dispose();
   }
 
   @override
@@ -86,6 +107,7 @@ class _TripSchedulePageState extends State<TripSchedulePage>
             children: [
               LocationTimeSlider(
                 trip: _trip,
+                introController: _locationTimeIntroController,
                 buttonRect: widget.buttonRect,
                 destinationLocation: widget.location,
                 showCompletedInfo: _currentSlider != 0,
@@ -98,6 +120,7 @@ class _TripSchedulePageState extends State<TripSchedulePage>
               if (_trip.source != null)
                 PassengerSlider(
                   trip: _trip,
+                  introController: _passengarIntroController,
                   showCompletedInfo: _currentSlider == 2,
                   enabled: _timeDetailsCompleted(),
                   onTripChanged: (trip) {
@@ -107,13 +130,26 @@ class _TripSchedulePageState extends State<TripSchedulePage>
                   },
                   onToggled: (isOpen) {
                     _changeCurrentSlider(isOpen);
+                    if (isOpen) {
+                      _passengarIntroController.forward();
+                    } else {
+                      _passengarIntroController.reverse();
+                    }
                   },
                 ),
               if (_currentSlider != 0)
                 PaymentSlider(
                   trip: _trip,
+                  introController: _paymentIntroController,
                   onToggled: (isOpen) {
                     _changeCurrentSlider(isOpen);
+                    if (isOpen) {
+                      _passengarIntroController.reverse();
+                      _paymentIntroController.forward();
+                    } else {
+                      _passengarIntroController.forward();
+                      _paymentIntroController.reverse();
+                    }
                   },
                 )
             ],

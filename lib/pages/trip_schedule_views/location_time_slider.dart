@@ -15,6 +15,7 @@ class LocationTimeSlider extends StatefulWidget {
   final Function(Trip) onTripChanged;
   final bool showCompletedInfo;
   final Rect buttonRect;
+  final AnimationController introController;
   const LocationTimeSlider({
     Key? key,
     required this.destinationLocation,
@@ -22,6 +23,7 @@ class LocationTimeSlider extends StatefulWidget {
     required this.trip,
     required this.onTripChanged,
     required this.buttonRect,
+    required this.introController
   }) : super(key: key);
 
   @override
@@ -29,11 +31,10 @@ class LocationTimeSlider extends StatefulWidget {
 }
 
 class _LocationTimeSliderState extends State<LocationTimeSlider>
-    with TickerProviderStateMixin {
+    with SingleTickerProviderStateMixin {
   bool _searchingForCurrentLocation = false;
   late Trip _trip;
   late AnimationController _containerController;
-  late AnimationController _locationTimeIntroController;
   late Animation<double> _locationIntroAnimation;
   late Animation<double> _calendarTitleIntroAnimation;
   late Animation<double> _calendarTimeIntroAnimation;
@@ -52,19 +53,17 @@ class _LocationTimeSliderState extends State<LocationTimeSlider>
     _containerController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 600))
       ..forward();
-    _locationTimeIntroController = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 800));
 
     _locationIntroAnimation = CurvedAnimation(
-      parent: _locationTimeIntroController,
+      parent: widget.introController,
       curve: Curves.ease,
     );
     _calendarTitleIntroAnimation = CurvedAnimation(
-      parent: _locationTimeIntroController,
+      parent: widget.introController,
       curve: const Interval(0.2, 1.0, curve: Curves.ease),
     );
     _calendarTimeIntroAnimation = CurvedAnimation(
-      parent: _locationTimeIntroController,
+      parent: widget.introController,
       curve: const Interval(0.4, 1.0, curve: Curves.ease),
     );
     _searchCurrentLocation();
@@ -73,16 +72,7 @@ class _LocationTimeSliderState extends State<LocationTimeSlider>
   @override
   void dispose() {
     _containerController.dispose();
-    _locationTimeIntroController.dispose();
     super.dispose();
-  }
-
-  @override
-  void didUpdateWidget(covariant LocationTimeSlider oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    // if (widget.showCompletedInfo && !oldWidget.showCompletedInfo) {
-    //   _locationTimeIntroController.forward();
-    // }
   }
 
   @override
@@ -343,7 +333,7 @@ class _LocationTimeSliderState extends State<LocationTimeSlider>
             price: 500,
             description: 'My place');
         widget.onTripChanged(_trip);
-        _locationTimeIntroController.forward();
+        widget.introController.forward();
       });
     });
   }

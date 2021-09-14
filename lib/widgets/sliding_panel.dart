@@ -9,6 +9,7 @@ class SlidingPanel extends StatefulWidget {
   final dynamic title;
   final Widget child;
   final Function(bool)? onToggled;
+  final Function()? clickedOnDisabled;
   const SlidingPanel({
     Key? key,
     required this.maxHeight,
@@ -17,6 +18,7 @@ class SlidingPanel extends StatefulWidget {
     required this.title,
     required this.child,
     this.onToggled,
+    this.clickedOnDisabled
   }) : super(key: key);
 
   @override
@@ -100,24 +102,25 @@ class _SlidingPanelState extends State<SlidingPanel> {
         color: Colors.transparent,
         borderRadius: BorderRadius.circular(100),
         child: IconButton(
-          icon: Icon(
-            isOpenButton ? Icons.expand_more : Icons.expand_less,
-            color: Colors.white,
-          ),
-          onPressed: widget.enabled
-              ? () {
-                  if (_isOpen) {
-                    _controller.close();
-                    _maxSize = false;
-                  } else {
-                    _controller.open();
-                  }
-                  setState(() {
-                    _isOpen = !_isOpen;
-                    widget.onToggled?.call(_isOpen);
-                  });
+            icon: Icon(
+              isOpenButton ? Icons.expand_more : Icons.expand_less,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              if (widget.enabled) {
+                if (_isOpen) {
+                  _controller.close();
+                  _maxSize = false;
+                } else {
+                  _controller.open();
                 }
-              : null,
-        ));
+                setState(() {
+                  _isOpen = !_isOpen;
+                  widget.onToggled?.call(_isOpen);
+                });
+              } else {
+                widget.clickedOnDisabled?.call();
+              }
+            }));
   }
 }
