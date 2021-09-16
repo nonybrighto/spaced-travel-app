@@ -67,6 +67,7 @@ class _TripSchedulePageState extends State<TripSchedulePage>
           appBar: AppBar(
             backgroundColor: Colors.transparent,
             elevation: 0,
+            centerTitle: true,
             title: const Text(
               'SCHEDULE TRIP',
               style: TextStyle(
