@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spaced_trip_scheduler/models/category.dart';
+import 'package:spaced_trip_scheduler/pages/locations_list_page.dart';
 
 class CategoryCard extends StatelessWidget {
   final Category category;
@@ -34,7 +35,12 @@ class CategoryCard extends StatelessWidget {
                 fontWeight: FontWeight.w500,
               ),
             )),
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => LocationsListPage(
+                        category: category,
+                      )));
+            },
           ),
         ),
       ),
