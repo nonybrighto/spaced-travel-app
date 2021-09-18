@@ -24,17 +24,17 @@ class User {
         description: 'A Lover of Adventure',
         visitedLocations: [
           Location(
+              title: 'Sahara',
+              place: 'Merzouga',
+              imageUrl: '$kImagesPath/tatiana-zanon-VP2mjtJqWvY.jpg',
+              price: 2.8,
+              description: 'Description',
+              country: 'Morocco'),
+          Location(
               title: 'Santorini',
               place: 'New Osogbo',
               imageUrl: '$kImagesPath/simone-hutsch-699861-unsplash.jpg',
               price: 0.5,
-              description: 'Description',
-              country: 'Nigeria'),
-          Location(
-              title: 'Marrakech',
-              place: 'Neptune',
-              imageUrl: '$kImagesPath/kenny-luo-516116-unsplash.jpg',
-              price: 2.8,
               description: 'Description',
               country: 'Nigeria'),
           Location(

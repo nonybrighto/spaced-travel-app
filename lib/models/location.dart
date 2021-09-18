@@ -44,6 +44,34 @@ class Location {
           price: 2.8,
           description: 'Description',
           country: 'Nigeria'),
+      Location(
+          title: 'Everest',
+          place: 'Himalayas',
+          imageUrl:
+              '$kImagesPath/backgrounds/jonathan-gallegos-726029-unsplash.png',
+          price: 2.8,
+          description: 'Description',
+          country: 'Nepal'),
+      Location(
+          title: 'Sahara',
+          place: 'Merzouga',
+          imageUrl: '$kImagesPath/tatiana-zanon-VP2mjtJqWvY.jpg',
+          price: 2.8,
+          description: 'Description',
+          country: 'Morocco'),
+      Location(
+          title: 'Pyramid',
+          place: 'Giza',
+          imageUrl: '$kImagesPath/steffen-gundermann-PtGvu2P-Gco-unsplash.jpg',
+          price: 2.8,
+          description: 'Description',
+          country: 'Egypt'),
     ];
+  }
+
+  static List<Location> getSearchedlocation(String searchText) {
+    return Location.getLocations()
+        .where((location) => location.title.contains(searchText))
+        .toList();
   }
 }
