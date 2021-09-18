@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:spaced_trip_scheduler/constants.dart';
 import 'package:spaced_trip_scheduler/pages/home_views/discovery.dart';
-import 'package:spaced_trip_scheduler/pages/home_views/navigate.dart';
+import 'package:spaced_trip_scheduler/pages/home_views/exploration.dart';
 import 'package:spaced_trip_scheduler/pages/home_views/profile.dart';
 
 import 'home_views/search.dart';
@@ -75,7 +75,7 @@ class _HomePageState extends State<HomePage> {
       case 0:
         return const Discovery();
       case 1:
-        return const Navigate();
+        return const Exploration();
       case 2:
         return const Search();
       case 3:
