@@ -133,6 +133,9 @@ class _LocationTimeSliderState extends State<LocationTimeSlider> {
               ),
             ),
             _buildDepatureTimeSelector(),
+            const SizedBox(
+              height: kPanelHeaderHeight,
+            )
           ],
         ),
       )

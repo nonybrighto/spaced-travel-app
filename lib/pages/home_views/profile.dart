@@ -15,6 +15,9 @@ class Profile extends StatelessWidget {
     const spacer = SizedBox(
       height: 10,
     );
+    const doubleSpacer = SizedBox(
+      height: 20,
+    );
     return BaseView(
       title: 'Profile',
       subTitle: 'Info about you',
@@ -24,8 +27,7 @@ class Profile extends StatelessWidget {
             children: [
               const SizedBox(height: 40),
               _buildImageHeader(context),
-              spacer,
-              spacer,
+              doubleSpacer,
               Text(
                 user.fullName,
                 textAlign: TextAlign.center,
@@ -40,16 +42,19 @@ class Profile extends StatelessWidget {
               ),
               spacer,
               _buildContactsDisplay(context),
-              spacer,
-              spacer,
+              doubleSpacer,
               _buildVisitedLocations(context),
-              spacer,
-              spacer,
+              doubleSpacer,
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: kDefaultPadding),
                 child: _buildCounterInfoDisplay(),
               ),
+              spacer,
+              //account for bottom navbar height
+              const SizedBox(
+                height: 55,
+              )
             ],
           ),
         ),

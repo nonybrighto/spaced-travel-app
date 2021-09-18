@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:spaced_trip_scheduler/constants.dart';
 
 class SlidingPanel extends StatefulWidget {
   final double maxHeight;
@@ -26,7 +27,6 @@ class _SlidingPanelState extends State<SlidingPanel> {
   final PanelController _controller = PanelController();
   bool _isOpen = false;
   bool _maxSize = false;
-  final double _headerHeight = 80;
   @override
   Widget build(BuildContext context) {
     const borderRadius = Radius.circular(30);
@@ -41,7 +41,7 @@ class _SlidingPanelState extends State<SlidingPanel> {
         topLeft: borderRadius,
         topRight: borderRadius,
       ),
-      minHeight: _headerHeight,
+      minHeight: kPanelHeaderHeight,
       panel: Column(
         children: [
           ..._buildHeader(widget.title),
@@ -55,7 +55,7 @@ class _SlidingPanelState extends State<SlidingPanel> {
     const bottomSpacing = 30.0;
     return [
       SizedBox(
-        height: _headerHeight - bottomSpacing,
+        height: kPanelHeaderHeight - bottomSpacing,
         child: Stack(
           children: [
             Align(

@@ -22,7 +22,7 @@ class OnboardingWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double textStartPosition = MediaQuery.of(context).size.height * 1.8 / 3;
+    double textStartPosition = MediaQuery.of(context).size.height - 400;
     return Stack(
       children: [
         Positioned.fill(
@@ -71,12 +71,12 @@ class OnboardingWrapper extends StatelessWidget {
                 const SizedBox(height: 20),
                 Text(
                   titleLine1,
-                  style: kHeadingStyle,
+                  style: kHeadingStyle.copyWith(fontSize: 37),
                 ),
                 Text(
                   titleLine2,
                   style: kHeadingStyle.copyWith(
-                      color: Theme.of(context).primaryColor),
+                      color: Theme.of(context).primaryColor, fontSize: 37),
                 ),
                 const SizedBox(height: 10),
                 Text(
@@ -84,7 +84,7 @@ class OnboardingWrapper extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     color: kNoteTextColor,
-                    fontSize: 15,
+                    fontSize: 17,
                     height: 1.7,
                   ),
                 ),

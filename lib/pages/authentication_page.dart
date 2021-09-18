@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:spaced_trip_scheduler/constants.dart';
+import 'package:spaced_trip_scheduler/pages/onboarding_page.dart';
 import 'package:spaced_trip_scheduler/widgets/app_button.dart';
 
 class AuthenticationPage extends StatefulWidget {
@@ -77,7 +78,10 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                             ],
                           ),
                         ),
-                        onPressed: () {}),
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => const Onboarding()));
+                        }),
                   ),
                   const SizedBox(height: 15),
                   SizedBox(

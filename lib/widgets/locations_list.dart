@@ -10,28 +10,26 @@ class LocationsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Padding(
-        padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
-        child: GridView.builder(
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 10.0,
-              mainAxisSpacing: 10.0,
-              childAspectRatio: 0.91),
-          itemCount: locations.length,
-          itemBuilder: (context, index) {
-            return LocationCard(
-                location: locations[index],
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => LocationPage(
-                            location: locations[index],
-                          )));
-                });
-          },
-        ),
-      );
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
+      child: GridView.builder(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 10.0,
+            mainAxisSpacing: 10.0,
+            childAspectRatio: 0.91),
+        itemCount: locations.length,
+        itemBuilder: (context, index) {
+          return LocationCard(
+              location: locations[index],
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => LocationPage(
+                          location: locations[index],
+                        )));
+              });
+        },
+      ),
+    );
   }
 }

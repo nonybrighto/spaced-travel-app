@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 //dimensions
 const kDefaultPadding = 25.0;
+const kPanelHeaderHeight = 80.0;
 
 //paths
 const kImagesPath = 'assets/images';

@@ -48,6 +48,7 @@ class _CalendarState extends State<Calendar> {
       firstDay: DateTime.now(),
       lastDay: DateTime.now().add(const Duration(days: 365 * 3)),
       daysOfWeekVisible: false,
+      availableGestures: AvailableGestures.horizontalSwipe,
       focusedDay: _focusedDay,
       selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
       rangeStartDay: _rangeStart,

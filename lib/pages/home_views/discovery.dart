@@ -57,6 +57,7 @@ class Discovery extends StatelessWidget {
   }
 
   _buildImageSlider(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
     List<Location> sliderLocations = Location.getLocations().take(3).toList();
 
     return Padding(
@@ -64,7 +65,7 @@ class Discovery extends StatelessWidget {
       child: CarouselSlider(
         options: CarouselOptions(
             autoPlay: false,
-            aspectRatio: 1.1,
+            aspectRatio: height < 700 ? 1.6 : 1.1,
             enableInfiniteScroll: false,
             enlargeCenterPage: true,
             viewportFraction:
