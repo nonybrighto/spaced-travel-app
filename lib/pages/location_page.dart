@@ -46,6 +46,7 @@ class LocationPage extends StatelessWidget {
           appBar: AppBar(
             backgroundColor: Colors.transparent,
             elevation: 0,
+            centerTitle: true,
             title: Text(
               location.place.toUpperCase(),
               style: const TextStyle(

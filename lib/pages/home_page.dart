@@ -77,9 +77,9 @@ class _HomePageState extends State<HomePage> {
       case 1:
         return const Navigate();
       case 2:
-        return const Profile();
-      case 3:
         return const Search();
+      case 3:
+        return const Profile();
       default:
         return const Discovery();
     }

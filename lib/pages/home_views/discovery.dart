@@ -57,32 +57,7 @@ class Discovery extends StatelessWidget {
   }
 
   _buildImageSlider(BuildContext context) {
-    List<Location> sliderLocations = [
-      Location(
-        title: 'Ophiuch',
-        place: 'Kaduna',
-        imageUrl: '$kImagesPath/roberto-nickson-g-549146-unsplash.jpg',
-        price: 0.4,
-        description: 'Description',
-        country: 'Nigeria'
-      ),
-      Location(
-        title: 'Santorini',
-        place: 'New Osogbo',
-        imageUrl: '$kImagesPath/simone-hutsch-699861-unsplash.jpg',
-        price: 0.5,
-        description: 'Description',
-        country: 'Nigeria'
-      ),
-      Location(
-        title: 'Marrakech',
-        place: 'Neptune',
-        imageUrl: '$kImagesPath/kenny-luo-516116-unsplash.jpg',
-        price: 2.8,
-        description: 'Description',
-        country: 'Nigeria'
-      ),
-    ];
+    List<Location> sliderLocations = Location.getLocations().take(3).toList();
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 20.0),

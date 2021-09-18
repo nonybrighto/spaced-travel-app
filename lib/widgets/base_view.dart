@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spaced_trip_scheduler/constants.dart';
+import 'package:spaced_trip_scheduler/models/user.dart';
 import 'package:spaced_trip_scheduler/widgets/user_avatar.dart';
 
 class BaseView extends StatelessWidget {
@@ -43,10 +44,17 @@ class BaseView extends StatelessWidget {
                 ))
             : null,
         actions: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
-          const Padding(
-            padding: EdgeInsets.only(right: kDefaultPadding),
-            child: UserAvatar(),
+          IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                Icons.sort,
+                size: 30,
+              )),
+          Padding(
+            padding: const EdgeInsets.only(right: kDefaultPadding),
+            child: UserAvatar(
+              user: User.getCurrentUser(),
+            ),
           )
         ],
       ),
