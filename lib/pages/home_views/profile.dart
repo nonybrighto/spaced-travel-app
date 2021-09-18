@@ -58,9 +58,25 @@ class Profile extends StatelessWidget {
   }
 
   _buildImageHeader(BuildContext context) {
-    return UserAvatar(
-      radius: 90,
-      user: User.getCurrentUser(),
+    return Stack(
+      children: [
+        UserAvatar(
+          radius: 90,
+          user: User.getCurrentUser(),
+        ),
+        const Positioned(
+          bottom: 10,
+          right: 10,
+          child: CircleAvatar(
+            radius: 15,
+            backgroundColor: Colors.green,
+            child: Icon(
+              Icons.check,
+              color: Colors.white,
+            ),
+          ),
+        )
+      ],
     );
   }
 
@@ -89,9 +105,9 @@ class Profile extends StatelessWidget {
                       location: location,
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => LocationPage(
-                              location: location,
-                            )));
+                            builder: (context) => LocationPage(
+                                  location: location,
+                                )));
                       },
                     ),
                   ))
