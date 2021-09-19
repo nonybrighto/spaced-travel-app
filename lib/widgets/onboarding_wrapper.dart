@@ -71,12 +71,14 @@ class OnboardingWrapper extends StatelessWidget {
                 const SizedBox(height: 20),
                 Text(
                   titleLine1,
-                  style: kHeadingStyle.copyWith(fontSize: 37),
+                  textAlign: TextAlign.center,
+                  style: kHeadingStyle.copyWith(fontSize: 35),
                 ),
                 Text(
                   titleLine2,
+                  textAlign: TextAlign.center,
                   style: kHeadingStyle.copyWith(
-                      color: Theme.of(context).primaryColor, fontSize: 37),
+                      color: Theme.of(context).primaryColor, fontSize: 35),
                 ),
                 const SizedBox(height: 10),
                 Text(
