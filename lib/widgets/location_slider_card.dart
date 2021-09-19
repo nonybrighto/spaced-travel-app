@@ -3,10 +3,12 @@ import 'package:spaced_trip_scheduler/constants.dart';
 import 'package:spaced_trip_scheduler/models/location.dart';
 
 class LocationSliderCard extends StatelessWidget {
+  final double offset;
   final Location location;
   final VoidCallback onTap;
   const LocationSliderCard({
     Key? key,
+    required this.offset,
     required this.location,
     required this.onTap,
   }) : super(key: key);
@@ -18,14 +20,20 @@ class LocationSliderCard extends StatelessWidget {
       borderRadius: const BorderRadius.all(Radius.circular(13)),
       child: Stack(
         children: [
-          Hero(
-              tag: 'location_image' + location.title,
-              child: Image.asset(
-                location.imageUrl,
-                height: double.infinity,
-                width: double.infinity,
-                fit: BoxFit.fill,
-              )),
+          Positioned(
+            left: -offset,
+            right: 0,
+            top: -offset,
+            bottom: 0,
+            child: Hero(
+                tag: 'location_image' + location.title,
+                child: Image.asset(
+                  location.imageUrl,
+                  height: double.infinity,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                )),
+          ),
           Container(
             decoration: BoxDecoration(
                 gradient: LinearGradient(

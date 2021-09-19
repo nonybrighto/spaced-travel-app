@@ -9,9 +9,15 @@ import 'package:spaced_trip_scheduler/widgets/base_view.dart';
 import 'package:spaced_trip_scheduler/widgets/category_card.dart';
 import 'package:spaced_trip_scheduler/widgets/location_slider_card.dart';
 
-class Discovery extends StatelessWidget {
+class Discovery extends StatefulWidget {
   const Discovery({Key? key}) : super(key: key);
 
+  @override
+  State<Discovery> createState() => _DiscoveryState();
+}
+
+class _DiscoveryState extends State<Discovery> {
+  double _parallaxOffset = 0;
   @override
   Widget build(BuildContext context) {
     return BaseView(
@@ -76,10 +82,13 @@ class Discovery extends StatelessWidget {
                     MediaQuery.of(context).size.width,
             disableCenter: true,
             onScrolled: (val) {
-              // print(val);
+              setState(() {
+                _parallaxOffset = (val ?? 0) * 100;
+              });
             }),
         items: sliderLocations
             .map((location) => LocationSliderCard(
+                  offset: _parallaxOffset,
                   location: location,
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
