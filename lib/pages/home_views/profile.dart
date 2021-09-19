@@ -15,6 +15,9 @@ class Profile extends StatelessWidget {
     const spacer = SizedBox(
       height: 10,
     );
+    const doubleSpacer = SizedBox(
+      height: 20,
+    );
     return BaseView(
       title: 'Profile',
       subTitle: 'Info about you',
@@ -24,8 +27,7 @@ class Profile extends StatelessWidget {
             children: [
               const SizedBox(height: 40),
               _buildImageHeader(context),
-              spacer,
-              spacer,
+              doubleSpacer,
               Text(
                 user.fullName,
                 textAlign: TextAlign.center,
@@ -40,16 +42,19 @@ class Profile extends StatelessWidget {
               ),
               spacer,
               _buildContactsDisplay(context),
-              spacer,
-              spacer,
+              doubleSpacer,
               _buildVisitedLocations(context),
-              spacer,
-              spacer,
+              doubleSpacer,
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: kDefaultPadding),
                 child: _buildCounterInfoDisplay(),
               ),
+              spacer,
+              //account for bottom navbar height
+              const SizedBox(
+                height: 55,
+              )
             ],
           ),
         ),
@@ -58,9 +63,25 @@ class Profile extends StatelessWidget {
   }
 
   _buildImageHeader(BuildContext context) {
-    return UserAvatar(
-      radius: 90,
-      user: User.getCurrentUser(),
+    return Stack(
+      children: [
+        UserAvatar(
+          radius: 90,
+          user: User.getCurrentUser(),
+        ),
+        const Positioned(
+          bottom: 10,
+          right: 10,
+          child: CircleAvatar(
+            radius: 15,
+            backgroundColor: Colors.green,
+            child: Icon(
+              Icons.check,
+              color: Colors.white,
+            ),
+          ),
+        )
+      ],
     );
   }
 
@@ -89,9 +110,9 @@ class Profile extends StatelessWidget {
                       location: location,
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => LocationPage(
-                              location: location,
-                            )));
+                            builder: (context) => LocationPage(
+                                  location: location,
+                                )));
                       },
                     ),
                   ))

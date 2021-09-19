@@ -11,35 +11,37 @@ class ProfileView extends StatelessWidget {
     TextStyle textStyle = kHeadingStyle.copyWith(fontSize: 35);
     User currentUser = User.getCurrentUser();
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          UserAvatar(
-            radius: 120,
-            user: currentUser,
-          ),
-          const SizedBox(height: 65),
-          Text(
-            'Hi ${currentUser.firstName}',
-            style: textStyle,
-          ),
-          const SizedBox(height: 10),
-          RichText(
-            textAlign: TextAlign.center,
-            text: TextSpan(
-              text: 'Welcome to ',
-              style: textStyle,
-              children: [
-                TextSpan(
-                  text: '\nSpaced',
-                  style: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                  ),
-                )
-              ],
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            UserAvatar(
+              radius: 120,
+              user: currentUser,
             ),
-          ),
-        ],
+            const SizedBox(height: 65),
+            Text(
+              'Hi ${currentUser.firstName}',
+              style: textStyle,
+            ),
+            const SizedBox(height: 10),
+            RichText(
+              textAlign: TextAlign.center,
+              text: TextSpan(
+                text: 'Welcome to ',
+                style: textStyle,
+                children: [
+                  TextSpan(
+                    text: '\nSpaced',
+                    style: TextStyle(
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:spaced_trip_scheduler/constants.dart';
+import 'package:spaced_trip_scheduler/pages/authentication_page.dart';
 import 'package:spaced_trip_scheduler/pages/home_page.dart';
 
 void main() {
@@ -51,7 +52,7 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
       // home: const Calendar(),
-      home: const HomePage(),
+      home: const AuthenticationPage(),
     );
   }
 }

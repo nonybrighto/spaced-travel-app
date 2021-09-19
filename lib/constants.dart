@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 const kDefaultPadding = 25.0;
 const kTripScheduleButtonRadius = 20.0;
 const kPanelRadius = 30.0;
+const kPanelHeaderHeight = 80.0;
 
 //paths
 const kImagesPath = 'assets/images';

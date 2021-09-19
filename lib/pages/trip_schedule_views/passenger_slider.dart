@@ -113,6 +113,7 @@ class _PassengerSliderState extends State<PassengerSlider> {
         child: SizedBox(
           height: 350,
           child: ListView(
+            physics: const NeverScrollableScrollPhysics(),
             children: [
               NumberPicker(
                 selectedValue: _trip.numberOfAdults,
@@ -182,6 +183,9 @@ class _PassengerSliderState extends State<PassengerSlider> {
             ),
           ),
         ),
+      ),
+      const SizedBox(
+        height: kPanelHeaderHeight,
       )
     ]);
   }

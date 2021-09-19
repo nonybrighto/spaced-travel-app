@@ -30,60 +30,62 @@ class PaymentSuccessPage extends StatelessWidget {
         Positioned.fill(
           child: Scaffold(
             backgroundColor: Colors.transparent,
-            body: Padding(
-              padding: const EdgeInsets.only(top: 60.0),
-              child: SizedBox(
-                width: double.infinity,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Image.asset('$kIconsPath/check.png'),
-                    spacer,
-                    Column(
-                      children: AnimationConfiguration.toStaggeredList(
-                          duration: const Duration(milliseconds: 600),
-                          childAnimationBuilder: (widget) => SlideAnimation(
-                                verticalOffset: 25.0,
-                                child: FadeInAnimation(
-                                  duration: const Duration(milliseconds: 600),
-                                  child: widget,
+            body: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 60.0),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Image.asset('$kIconsPath/check.png'),
+                      spacer,
+                      Column(
+                        children: AnimationConfiguration.toStaggeredList(
+                            duration: const Duration(milliseconds: 600),
+                            childAnimationBuilder: (widget) => SlideAnimation(
+                                  verticalOffset: 25.0,
+                                  child: FadeInAnimation(
+                                    duration: const Duration(milliseconds: 600),
+                                    child: widget,
+                                  ),
+                                ),
+                            children: [
+                              const Text(
+                                "You're all set!",
+                                style: kHeadingStyle,
+                              ),
+                              spacer,
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width / 2,
+                                child: const Text(
+                                  "A summary has been sent to your inbox",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: kNoteTextColorDarker,
+                                      fontSize: 20,
+                                      height: 1.5),
                                 ),
                               ),
-                          children: [
-                            const Text(
-                              "You're all set!",
-                              style: kHeadingStyle,
-                            ),
-                            spacer,
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width / 2,
-                              child: const Text(
-                                "A summary has been sent to your inbox",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: kNoteTextColorDarker,
-                                    fontSize: 20,
-                                    height: 1.5),
-                              ),
-                            ),
-                          ]),
-                    ),
-                    spacer,
-                    _buildTicket(context),
-                    spacer,
-                    TextButton(
-                      child: const Text(
-                        'Done',
-                        style: TextStyle(fontSize: 20),
+                            ]),
                       ),
-                      onPressed: () {
-                        Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(
-                                builder: (context) => const HomePage()),
-                            (route) => false);
-                      },
-                    )
-                  ],
+                      spacer,
+                      _buildTicket(context),
+                      spacer,
+                      TextButton(
+                        child: const Text(
+                          'Done',
+                          style: TextStyle(fontSize: 20),
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pushAndRemoveUntil(
+                              MaterialPageRoute(
+                                  builder: (context) => const HomePage()),
+                              (route) => false);
+                        },
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -102,7 +104,7 @@ class PaymentSuccessPage extends StatelessWidget {
           color: Theme.of(context).primaryColor,
           constraints: const BoxConstraints(
             maxWidth: 500,
-            minHeight: 400,
+            minHeight: 300,
             maxHeight: 700,
           ),
           height: MediaQuery.of(context).size.height / 2,
