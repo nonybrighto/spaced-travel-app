@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:spaced_trip_scheduler/constants.dart';
 import 'package:spaced_trip_scheduler/models/user.dart';
 import 'package:spaced_trip_scheduler/pages/location_page.dart';
@@ -12,22 +13,24 @@ class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     User user = User.getCurrentUser();
-    const spacer = SizedBox(
-      height: 10,
-    );
-    const doubleSpacer = SizedBox(
-      height: 20,
-    );
     return BaseView(
       title: 'Profile',
       subTitle: 'Info about you',
       body: SingleChildScrollView(
-        child: Center(
-          child: Column(
+        child: Column(
+          children: AnimationConfiguration.toStaggeredList(
+            duration: const Duration(milliseconds: 600),
+            childAnimationBuilder: (widget) => SlideAnimation(
+              verticalOffset: 140.0,
+              child: FadeInAnimation(
+                child: widget,
+              ),
+            ),
             children: [
-              const SizedBox(height: 40),
-              _buildImageHeader(context),
-              doubleSpacer,
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20),
+                child: _buildImageHeader(context),
+              ),
               Text(
                 user.fullName,
                 textAlign: TextAlign.center,
@@ -35,22 +38,24 @@ class Profile extends StatelessWidget {
                   fontSize: 36,
                 ),
               ),
-              spacer,
               Text(
                 user.description,
                 style: const TextStyle(color: kNoteTextColorDarker),
               ),
-              spacer,
+              const SizedBox(
+                height: 10,
+              ),
               _buildContactsDisplay(context),
-              doubleSpacer,
-              _buildVisitedLocations(context),
-              doubleSpacer,
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: kDefaultPadding),
+                padding: const EdgeInsets.symmetric(vertical: 20),
+                child: _buildVisitedLocations(context),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: kDefaultPadding,
+                ),
                 child: _buildCounterInfoDisplay(),
               ),
-              spacer,
               //account for bottom navbar height
               const SizedBox(
                 height: 55,

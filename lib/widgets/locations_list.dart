@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:spaced_trip_scheduler/constants.dart';
 import 'package:spaced_trip_scheduler/models/location.dart';
 import 'package:spaced_trip_scheduler/pages/location_page.dart';
@@ -10,26 +11,39 @@ class LocationsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int columnCount = 2;
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
-      child: GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
+        padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
+        child: AnimationLimiter(
+          child: GridView.count(
+            crossAxisCount: columnCount,
             crossAxisSpacing: 10.0,
             mainAxisSpacing: 10.0,
-            childAspectRatio: 0.91),
-        itemCount: locations.length,
-        itemBuilder: (context, index) {
-          return LocationCard(
-              location: locations[index],
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => LocationPage(
+            childAspectRatio: 0.91,
+            children: List.generate(
+              locations.length,
+              (int index) {
+                return AnimationConfiguration.staggeredGrid(
+                  position: index,
+                  duration: const Duration(milliseconds: 600),
+                  columnCount: columnCount,
+                  child: SlideAnimation(
+                    verticalOffset: 140,
+                    child: FadeInAnimation(
+                      child: LocationCard(
                           location: locations[index],
-                        )));
-              });
-        },
-      ),
-    );
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => LocationPage(
+                                      location: locations[index],
+                                    )));
+                          }),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        ));
   }
 }

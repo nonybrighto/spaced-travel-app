@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:spaced_trip_scheduler/constants.dart';
 import 'package:spaced_trip_scheduler/models/category.dart';
 import 'package:spaced_trip_scheduler/models/location.dart';
@@ -19,38 +20,40 @@ class Discovery extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildImageSlider(context),
-            Padding(
-              padding: const EdgeInsets.only(
-                left: kDefaultPadding,
-                top: 10,
-                right: kDefaultPadding,
+          children: AnimationConfiguration.toStaggeredList(
+            duration: const Duration(milliseconds: 600),
+            childAnimationBuilder: (widget) => SlideAnimation(
+              verticalOffset: 140.0,
+              child: FadeInAnimation(
+                child: widget,
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Feeling Adventurous?',
-                    style: kHeadingStyle,
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  const Text(
-                    'Get Inspiration from these trending categories',
-                    style: TextStyle(
-                      color: kNoteTextColor,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 25,
-                  ),
-                  _buildCategories(),
-                ],
+            ),
+            children: [
+              _buildImageSlider(context),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: kDefaultPadding),
+                child: Text(
+                  'Feeling Adventurous?',
+                  style: kHeadingStyle,
+                ),
               ),
-            )
-          ],
+              const Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: kDefaultPadding, vertical: 20),
+                child: Text(
+                  'Get Inspiration from these trending categories',
+                  style: TextStyle(
+                    color: kNoteTextColor,
+                  ),
+                ),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: kDefaultPadding),
+                child: _buildCategories(),
+              )
+            ],
+          ),
         ),
       ),
     );
