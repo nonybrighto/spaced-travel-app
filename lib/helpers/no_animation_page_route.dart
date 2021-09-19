@@ -13,6 +13,9 @@ class NoAnimationPageRoute<T> extends MaterialPageRoute<T> {
             fullscreenDialog: fullscreenDialog);
 
   @override
+  Duration get transitionDuration => const Duration(milliseconds: 0);
+
+  @override
   Widget buildTransitions(BuildContext context, Animation<double> animation,
       Animation<double> secondaryAnimation, Widget child) {
     return child;
