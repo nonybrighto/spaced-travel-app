@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:spaced_trip_scheduler/constants.dart';
+import 'package:spaced_trip_scheduler/helpers/no_animation_page_route.dart';
 import 'package:spaced_trip_scheduler/pages/onboarding_page.dart';
 import 'package:spaced_trip_scheduler/widgets/app_button.dart';
 
@@ -79,7 +80,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                           ),
                         ),
                         onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
+                          Navigator.of(context).push(NoAnimationPageRoute(
                               builder: (context) => const Onboarding()));
                         }),
                   ),
@@ -91,7 +92,10 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                           padding: buttonPadding,
                           child: Text('Use email or Phone instead'),
                         ),
-                        onPressed: () {}),
+                        onPressed: () {
+                            Navigator.of(context).push(NoAnimationPageRoute(
+                              builder: (context) => const Onboarding()));
+                        }),
                   ),
                   const SizedBox(height: 35),
                   RichText(

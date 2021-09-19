@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:spaced_trip_scheduler/helpers/no_animation_page_route.dart';
 import 'package:spaced_trip_scheduler/models/location.dart';
 import 'package:spaced_trip_scheduler/pages/trip_schedule_page.dart';
 
@@ -155,11 +156,10 @@ class LocationPage extends StatelessWidget {
               final RenderBox box =
                   key.currentContext!.findRenderObject() as RenderBox;
               final Rect sourceRect = box.localToGlobal(Offset.zero) & box.size;
-              Navigator.of(context).push<void>(PageRouteBuilder<void>(
-                pageBuilder: (BuildContext context, _, __) => TripSchedulePage(
-                    location: location, buttonRect: sourceRect),
-                transitionDuration: const Duration(milliseconds: 10),
-              ));
+
+              Navigator.of(context).push(NoAnimationPageRoute(
+                  builder: (context) => TripSchedulePage(
+                      location: location, buttonRect: sourceRect)));
             },
           ),
         ),
