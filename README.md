@@ -1,6 +1,6 @@
-# spaced_trip_scheduler
+# spaced_travel_app
 
-Spaced is an animated trip scheduling application UI that enables users to surf for travel locations within and outside the earth :-).  It is based on an amazing UI by [Xzit Ebuka](https://projects.invisionapp.com/prototype/Spaced-ckoya27rk005bem01178r0com/play/b74b1846?fbclid=IwAR1QN5VBFbGq5CpC4ruQv-wN36TO5ot9v36B2znp-XcmRQduXSsjFVrrR9I), and developed by nonybrighto.
+Spaced is an animated travel application UI that enables users to find locations and schedule trips. It is based on an amazing UI by [Xzit Ebuka](https://projects.invisionapp.com/prototype/Spaced-ckoya27rk005bem01178r0com/play/b74b1846?fbclid=IwAR1QN5VBFbGq5CpC4ruQv-wN36TO5ot9v36B2znp-XcmRQduXSsjFVrrR9I), and developed by nonybrighto.
 
 ## Overview
 
