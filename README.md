@@ -6,7 +6,7 @@ Spaced is an animated travel application UI that enables users to find locations
 
 <img src="screenshots/header.png" width="100%">
 
-Checkout the [basic_structure](https://github.com/nonybrighto/spaced-trip-scheduler/tree/basic_structure) branch for UI with less animations
+Checkout the [basic_structure](https://github.com/nonybrighto/spaced-travel-app/tree/basic_structure) branch for UI with less animations
 
 ## [Watch it on YouTube](https://youtu.be/S52E9KM7hYw)
 
