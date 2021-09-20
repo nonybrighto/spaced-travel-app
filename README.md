@@ -20,10 +20,8 @@ Screenshots from the developed flutter application
 | --------------------------------------------- | --------------------------------------------- | --------------------------------------------- |
 | <img src="screenshots/welcome_onboard.png" width="100%"/> | <img src="screenshots/vacation_onboard.png" width="100%"/> | <img src="screenshots/discovery_onboard.png" width="100%"/> |
 | Home                                 | Search                                | Profile                                 |
-| --------------------------------------------- | --------------------------------------------- | --------------------------------------------- |
 | <img src="screenshots/welcome_onboard.png" width="100%"/> | <img src="screenshots/vacation_onboard.png" width="100%"/> | <img src="screenshots/discovery_onboard.png" width="100%"/> |
 | Location                                | Date                                | Success                                |
-| --------------------------------------------- | --------------------------------------------- | --------------------------------------------- |
 | <img src="screenshots/location_page.png" width="100%"/> | <img src="screenshots/date_selector.png" width="100%"/> | <img src="screenshots/payment_success.png" width="100%"/> |
 
 ## Mentions
