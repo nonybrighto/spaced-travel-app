@@ -1,16 +1,33 @@
 # spaced_trip_scheduler
 
-A new Flutter project.
+Spaced is an animated trip scheduling application UI that enables users to surf for locations to travel to within and outside earth :-).  It is based on an amazing UI by [Xzit Ebuka](https://projects.invisionapp.com/prototype/Spaced-ckoya27rk005bem01178r0com/play/b74b1846?fbclid=IwAR1QN5VBFbGq5CpC4ruQv-wN36TO5ot9v36B2znp-XcmRQduXSsjFVrrR9I), and developed by nonybrighto.
 
-## Getting Started
+## Overview
 
-This project is a starting point for a Flutter application.
+<img src="screenshots/header.png" width="100%">
 
-A few resources to get you started if this is your first Flutter project:
+## [Watch it on YouTube](https://youtu.be/S52E9KM7hYw)
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+## Animation
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<img src="screenshots/spaced.gif" width="45%">
+
+## Screenshots
+
+Screenshots from the developed flutter application
+
+| Welcome                                 | Vacation                                 | Discovery                                 |
+| --------------------------------------------- | --------------------------------------------- | --------------------------------------------- |
+| <img src="screenshots/welcome_onboard.png" width="100%"/> | <img src="screenshots/vacation_onboard.png" width="100%"/> | <img src="screenshots/discovery_onboard.png" width="100%"/> |
+| Home                                 | Search                                | Profile                                 |
+| --------------------------------------------- | --------------------------------------------- | --------------------------------------------- |
+| <img src="screenshots/welcome_onboard.png" width="100%"/> | <img src="screenshots/vacation_onboard.png" width="100%"/> | <img src="screenshots/discovery_onboard.png" width="100%"/> |
+| Location                                | Date                                | Success                                |
+| --------------------------------------------- | --------------------------------------------- | --------------------------------------------- |
+| <img src="screenshots/location_page.png" width="100%"/> | <img src="screenshots/date_selector.png" width="100%"/> | <img src="screenshots/payment_success.png" width="100%"/> |
+
+## Mentions
+
+The UI is designed by Xzit Ebuka. located [here](https://projects.invisionapp.com/prototype/Spaced-ckoya27rk005bem01178r0com/play/b74b1846?fbclid=IwAR1QN5VBFbGq5CpC4ruQv-wN36TO5ot9v36B2znp-XcmRQduXSsjFVrrR9I)
+
+To learn how to make complex flutter animations, watch [Implementing complex UI with Flutter - Marcin Szałek | Flutter Europe](https://www.youtube.com/watch?v=FCyoHclCqc8&t=672s)
